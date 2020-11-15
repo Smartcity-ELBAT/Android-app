@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_greeting">Bonjour %1$s 🍽</string>
+    <string name="action_save">Sauver</string>
+
+    <string name="menu_map">Réserver</string>
+    <string name="menu_my_account">Mon compte</string>
+    <string name="menu_my_bookings">Mes réservations</string>
+    <string name="menu_covid_positive">Je suis positif au Covid-19</string>
+</resources>

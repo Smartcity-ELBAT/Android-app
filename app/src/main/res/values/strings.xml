@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name" translatable="false">ELBAT</string>
+    <string name="nav_greeting">Hello %1$s 🍽</string>
+    <string name="action_save">Save</string>
+
+    <string name="menu_map">Book a table</string>
+    <string name="menu_my_account">My account</string>
+    <string name="menu_my_bookings">My bookings</string>
+    <string name="menu_covid_positive">I am positive to Covid-19</string>
+    <string name="app_name_full" translatable="false">Easy Lunch - Book a Table</string>
+</resources>
