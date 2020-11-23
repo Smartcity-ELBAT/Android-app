@@ -1,4 +1,4 @@
-package be.henallux.ig3.smartcity.elbatapp.ui.booking;
+package be.henallux.ig3.smartcity.elbatapp.ui.tableBooking;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

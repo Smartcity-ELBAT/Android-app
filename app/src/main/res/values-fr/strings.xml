@@ -7,4 +7,14 @@
     <string name="menu_my_account">Mon compte</string>
     <string name="menu_my_bookings">Mes réservations</string>
     <string name="menu_covid_positive">Je suis positif au Covid-19</string>
+    <string name="menu_exit">Se déconnecter</string>
+    <string name="title_activity_login">Connexion</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">Se connecter ou s\'enregistrer</string>
+    <string name="action_sign_in_short">Se connecter</string>
+    <string name="welcome">Bienvenue</string>
+    <string name="invalid_username">Nom d\'utilisateur invalide</string>
+    <string name="invalid_password">Le mot de passe doit faire plus de 5 caractères</string>
+    <string name="login_failed">La connexion a échoué</string>
+    <string name="prompt_username">Nom d\'utilisateur</string>
 </resources>

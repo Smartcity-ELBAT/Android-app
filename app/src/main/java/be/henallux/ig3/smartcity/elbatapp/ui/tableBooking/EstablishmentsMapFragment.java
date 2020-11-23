@@ -1,24 +1,28 @@
-package be.henallux.ig3.smartcity.elbatapp.ui.booking;
+package be.henallux.ig3.smartcity.elbatapp.ui.tableBooking;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
 
-public class EstablishmentsMapFragment extends Fragment {
+public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnInfoWindowClickListener {
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -33,9 +37,11 @@ public class EstablishmentsMapFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            LatLng sydney = new LatLng(50.4669, 4.86746);
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Namur"));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14));
+            googleMap.setMinZoomPreference(14);
+            googleMap.setOnInfoWindowClickListener(EstablishmentsMapFragment.this);
         }
     };
 
@@ -52,8 +58,14 @@ public class EstablishmentsMapFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
     }
 }
