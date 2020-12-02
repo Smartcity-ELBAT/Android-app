@@ -1,44 +1,76 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.login;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import android.util.Patterns;
+import android.app.Application;
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
 
-import be.henallux.ig3.smartcity.elbatapp.repositories.LoginRepository;
-import be.henallux.ig3.smartcity.elbatapp.data.Result;
-import be.henallux.ig3.smartcity.elbatapp.data.model.LoggedInUser;
+import org.jetbrains.annotations.NotNull;
+
 import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError;
+import be.henallux.ig3.smartcity.elbatapp.data.model.User;
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.ELBATWebService;
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.RetrofitConfigurationService;
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.LoginCredentialsDto;
+import be.henallux.ig3.smartcity.elbatapp.utils.errors.NoConnectivityException;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel extends AndroidViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    private MutableLiveData<User> _user = new MutableLiveData<>();
+    private LiveData<User> user = _user;
+
+    private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
+    private LiveData<NetworkError> error = _error;
+
+    private ELBATWebService webService;
+
+    private String token;
+
+    public LoginViewModel(@NotNull Application application) {
+        super(application);
+
+        this.webService = RetrofitConfigurationService.getInstance(application, "").getELBATWebService();
     }
 
-    LiveData<LoginFormState> getLoginFormState() {
-        return loginFormState;
+    public LiveData<User> getLoginResult() {
+        return user;
     }
 
-    LiveData<LoginResult> getLoginResult() {
-        return loginResult;
+    public LiveData<NetworkError> getError() {
+        return error;
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        webService.login(new LoginCredentialsDto(username, password)).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
+                if (response.isSuccessful()) {
+                    JWT jwt = new JWT(response.body());
+                    Claim userData = jwt.getClaim("userData");
 
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-        }
+                    token = response.body();
+
+                    webService = RetrofitConfigurationService.getInstance(getApplication(), token).getELBATWebService();
+
+                    _user.setValue(userData.asObject(User.class));
+                    _error.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<String> call, @NotNull Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
     }
 
     public void loginDataChanged(String username, String password) {
@@ -53,18 +85,19 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder username validation check
     private boolean isUserNameValid(String username) {
-        if (username == null) {
-            return false;
-        }
-        if (username.contains("@")) {
-            return Patterns.EMAIL_ADDRESS.matcher(username).matches();
-        } else {
-            return !username.trim().isEmpty();
-        }
+        return username != null && !username.trim().isEmpty();
     }
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public LiveData<LoginFormState> getLoginFormState() {
+        return loginFormState;
     }
 }

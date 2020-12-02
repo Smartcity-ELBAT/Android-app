@@ -66,6 +66,6 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
+        // Accéder à la page de réservation en fonction du Marker
     }
 }

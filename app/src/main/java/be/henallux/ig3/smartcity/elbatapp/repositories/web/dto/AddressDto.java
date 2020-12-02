@@ -7,7 +7,7 @@ public class AddressDto {
     private String number;
     private String country;
     private String city;
-    private Integer postalCode;
+    private String postalCode;
 
     public Integer getId() {
         return id;
@@ -49,11 +49,11 @@ public class AddressDto {
         this.city = city;
     }
 
-    public Integer getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(Integer postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 }
