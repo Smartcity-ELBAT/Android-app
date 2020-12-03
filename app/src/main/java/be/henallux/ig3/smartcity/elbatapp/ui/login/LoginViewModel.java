@@ -38,7 +38,7 @@ public class LoginViewModel extends AndroidViewModel {
     public LoginViewModel(@NotNull Application application) {
         super(application);
 
-        this.webService = RetrofitConfigurationService.getInstance(application, "").getELBATWebService();
+        this.webService = RetrofitConfigurationService.getInstance(application).getELBATWebService();
     }
 
     public LiveData<User> getLoginResult() {
@@ -58,8 +58,6 @@ public class LoginViewModel extends AndroidViewModel {
                     Claim userData = jwt.getClaim("userData");
 
                     token = response.body();
-
-                    webService = RetrofitConfigurationService.getInstance(getApplication(), token).getELBATWebService();
 
                     _user.setValue(userData.asObject(User.class));
                     _error.setValue(null);

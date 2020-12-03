@@ -54,4 +54,8 @@ public class Address {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public String fullAddress() {
+        return number + " " + street + ", " + postalCode + " " + city + " " +  country;
+    }
 }

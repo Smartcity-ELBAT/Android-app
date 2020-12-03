@@ -7,6 +7,7 @@ import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.LoginCredentialsD
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ELBATWebService {
@@ -14,5 +15,5 @@ public interface ELBATWebService {
     Call<String> login(@Body LoginCredentialsDto loginCredentials);
 
     @GET("/establishment/")
-    Call<List<EstablishmentDto>> getAllEstablishments();
+    Call<List<EstablishmentDto>> getAllEstablishments(@Header(value = "Authorization") String token);
 }

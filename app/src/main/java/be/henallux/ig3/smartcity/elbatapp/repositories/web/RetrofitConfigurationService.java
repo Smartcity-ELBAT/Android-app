@@ -6,7 +6,6 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory;
 
 import be.henallux.ig3.smartcity.elbatapp.utils.ConnectivityCheckInterceptor;
-import be.henallux.ig3.smartcity.elbatapp.utils.WebTokenInterceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -23,10 +22,9 @@ public class RetrofitConfigurationService {
         ELBATWebService = null;
     }
 
-    private RetrofitConfigurationService(Context context, String token) {
+    private RetrofitConfigurationService(Context context) {
         client = new OkHttpClient.Builder()
                 .addInterceptor(new ConnectivityCheckInterceptor(context))
-                .addInterceptor(new WebTokenInterceptor(token))
                 .build();
 
         Moshi moshiConverter = new Moshi.Builder()
@@ -40,8 +38,8 @@ public class RetrofitConfigurationService {
                 .build();
     }
 
-    public static RetrofitConfigurationService getInstance(Context context, String token) {
-        return new RetrofitConfigurationService(context, token);
+    public static RetrofitConfigurationService getInstance(Context context) {
+        return new RetrofitConfigurationService(context);
     }
 
     public ELBATWebService getELBATWebService() {
