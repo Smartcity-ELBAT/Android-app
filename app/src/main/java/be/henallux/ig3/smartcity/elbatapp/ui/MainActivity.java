@@ -1,9 +1,13 @@
-package be.henallux.ig3.smartcity.elbatapp;
+package be.henallux.ig3.smartcity.elbatapp.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
 
+import com.auth0.android.jwt.JWT;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -13,6 +17,11 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import java.util.Objects;
+
+import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.data.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView greetingsView = headerView.findViewById(R.id.greetings_view);
+        JWT token = new JWT(getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE).getString("JSONWEBTOKEN", ""));
+
+        greetingsView.setText(getString(R.string.nav_greeting, Objects.requireNonNull(token.getClaim("userData").asObject(User.class)).getFirstName()));
     }
 
     @Override

@@ -3,26 +3,35 @@ package be.henallux.ig3.smartcity.elbatapp.ui.tableBooking;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Locale;
+
 import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment;
 
 public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnInfoWindowClickListener {
+    private HashMap<MarkerOptions, Establishment> establishmentsMarkers;
+
+    private EstablishmentsMapViewModel establishmentsMapViewModel;
+    private GoogleMap googleMap;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
@@ -37,9 +46,9 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(50.4669, 4.86746);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Namur"));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney, 14));
+            EstablishmentsMapFragment.this.googleMap = googleMap;
+
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(50.4669, 4.86746), 14));
             googleMap.setMinZoomPreference(14);
             googleMap.setOnInfoWindowClickListener(EstablishmentsMapFragment.this);
         }
@@ -58,14 +67,34 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        establishmentsMapViewModel = new ViewModelProvider(this).get(EstablishmentsMapViewModel.class);
+        establishmentsMapViewModel.requestEstablishments();
 
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+
+        establishmentsMapViewModel.getEstablishments().observe(requireActivity(), establishments -> {
+            Geocoder geocoder = new Geocoder(requireActivity(), Locale.FRANCE);
+
+            establishmentsMarkers = new HashMap<>();
+
+            for (Establishment establishment : establishments) {
+                try {
+                    Address address = geocoder.getFromLocationName(establishment.getAddress().fullAddress(),1).get(0);
+                    LatLng addressLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    MarkerOptions options = new MarkerOptions().position(addressLatLng).title(establishment.getName());
+
+                    establishmentsMarkers.put(options, establishment);
+                    googleMap.addMarker(options);
+                } catch (IOException ignored) {}
+            }
+
+        });
     }
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
+        // Accéder à la page de réservation en fonction du Marker
     }
 }
