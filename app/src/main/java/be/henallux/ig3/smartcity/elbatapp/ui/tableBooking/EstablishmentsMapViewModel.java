@@ -13,7 +13,6 @@ import java.util.List;
 
 import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment;
 import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError;
-import be.henallux.ig3.smartcity.elbatapp.data.model.User;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.ELBATWebService;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.RetrofitConfigurationService;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.EstablishmentDto;
@@ -36,10 +35,10 @@ public class EstablishmentsMapViewModel extends AndroidViewModel {
     public EstablishmentsMapViewModel(@NotNull Application application) {
         super(application);
 
-
         this.webService = RetrofitConfigurationService
                 .getInstance(getApplication())
                 .getELBATWebService();
+
         this.establishmentMapper = EstablishmentMapper.getInstance();
     }
 
@@ -47,6 +46,7 @@ public class EstablishmentsMapViewModel extends AndroidViewModel {
         String token = "Bearer " + getApplication()
                 .getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE)
                 .getString("JSONWEBTOKEN", "");
+
         webService.getAllEstablishments(token).enqueue(new Callback<List<EstablishmentDto>>() {
             @Override
             public void onResponse(@NotNull Call<List<EstablishmentDto>> call, @NotNull Response<List<EstablishmentDto>> response) {

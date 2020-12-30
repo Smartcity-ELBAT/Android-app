@@ -1,17 +1,31 @@
 package be.henallux.ig3.smartcity.elbatapp.repositories.web.dto;
 
-import java.util.Date;
-
 public class UserDto {
     private Integer id;
     private String username;
     private String password;
     private String lastName;
     private String firstName;
-    private Date birthDate;
+    private String birthDate;
     private Character gender;
+    private String phoneNumber;
+    private String email;
     private Boolean isPositiveToCovid19;
     private AddressDto address;
+
+    public UserDto(String username, String password, String lastName, String firstName, String birthDate,
+                   Character gender, String phoneNumber, String email, Boolean isPositiveToCovid19, AddressDto address) {
+        this.username = username;
+        this.password = password;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.isPositiveToCovid19 = isPositiveToCovid19;
+        this.address = address;
+    }
 
     public Integer getId() {
         return id;
@@ -53,11 +67,11 @@ public class UserDto {
         this.firstName = firstName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String  birthDate) {
         this.birthDate = birthDate;
     }
 

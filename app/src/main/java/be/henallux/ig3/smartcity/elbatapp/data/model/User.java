@@ -1,29 +1,29 @@
 package be.henallux.ig3.smartcity.elbatapp.data.model;
 
-import java.util.Date;
-
-import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.AddressDto;
-
 public class User {
     private Integer id;
     private String username;
     private String password;
     private String lastName;
     private String firstName;
-    private Date birthDate;
+    private String birthDate;
+    private String email;
+    private String phoneNumber;
     private Character gender;
     private Boolean isPositiveToCovid19;
     private Address address;
 
-    public User(Integer id, String username, String password, String lastName, String firstName, Date birthDate, Character gender, Boolean isPositiveToCovid19, Address address) {
-        this.id = id;
+    // registration
+    public User(String username, String password, String lastName, String firstName,
+                String birthDate, Character gender, String email, String phoneNumber, Address address) {
         this.username = username;
         this.password = password;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthDate = birthDate;
         this.gender = gender;
-        this.isPositiveToCovid19 = isPositiveToCovid19;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.address = address;
     }
 
@@ -67,12 +67,28 @@ public class User {
         this.firstName = firstName;
     }
 
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Character getGender() {
@@ -97,5 +113,22 @@ public class User {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender=" + gender +
+                ", isPositiveToCovid19=" + isPositiveToCovid19 +
+                ", address=" + address +
+                '}';
     }
 }

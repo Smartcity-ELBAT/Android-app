@@ -1,24 +1,23 @@
 package be.henallux.ig3.smartcity.elbatapp.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.auth0.android.jwt.JWT;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+
+import com.auth0.android.jwt.JWT;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
@@ -52,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         JWT token = new JWT(getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE).getString("JSONWEBTOKEN", ""));
 
         greetingsView.setText(getString(R.string.nav_greeting, Objects.requireNonNull(token.getClaim("userData").asObject(User.class)).getFirstName()));
+
+
     }
 
     @Override
