@@ -1,7 +1,24 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.tableBooking;
 
-import androidx.lifecycle.ViewModel;
+import android.app.Application;
 
-public class ReservationViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+
+import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment;
+
+public class ReservationViewModel extends AndroidViewModel {
+    private Establishment selectedEstablishment;
+
+    public ReservationViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public void setEstablishment(Establishment establishment) {
+        selectedEstablishment = establishment;
+    }
+
+    public Establishment getSelectedEstablishment() {
+        return selectedEstablishment;
+    }
 }

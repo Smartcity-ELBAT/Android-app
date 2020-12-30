@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +23,21 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment;
 
 public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnInfoWindowClickListener {
-    private HashMap<MarkerOptions, Establishment> establishmentsMarkers;
+    private ArrayList<Establishment> establishments;
 
     private EstablishmentsMapViewModel establishmentsMapViewModel;
+    private ReservationViewModel reservationViewModel;
     private GoogleMap googleMap;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -67,6 +74,8 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        reservationViewModel = new ViewModelProvider(requireActivity()).get(ReservationViewModel.class);
+
         establishmentsMapViewModel = new ViewModelProvider(this).get(EstablishmentsMapViewModel.class);
         establishmentsMapViewModel.requestEstablishments();
 
@@ -77,17 +86,21 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
         establishmentsMapViewModel.getEstablishments().observe(requireActivity(), establishments -> {
             Geocoder geocoder = new Geocoder(requireActivity(), Locale.FRANCE);
 
-            establishmentsMarkers = new HashMap<>();
+            this.establishments = (ArrayList<Establishment>) establishments;
 
             for (Establishment establishment : establishments) {
                 try {
                     Address address = geocoder.getFromLocationName(establishment.getAddress().fullAddress(),1).get(0);
                     LatLng addressLatLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    MarkerOptions options = new MarkerOptions().position(addressLatLng).title(establishment.getName());
 
-                    establishmentsMarkers.put(options, establishment);
-                    googleMap.addMarker(options);
-                } catch (IOException ignored) {}
+                    googleMap.addMarker(new MarkerOptions()
+                            .position(addressLatLng)
+                            .title(establishment.getName() + " - " + establishment.getCategory())
+                            .snippet(establishment.getAddress().fullAddress()));
+                } catch (IOException exception) {
+                    Log.e("ESTABLISHMENT GEOCODING", exception.getLocalizedMessage());
+                    Log.e("ESTABLISHMENT GEOCODING CONTINUED", "Cause", exception.getCause());
+                }
             }
 
         });
@@ -95,6 +108,16 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        // Accéder à la page de réservation en fonction du Marker
+        Establishment clickedEstablishment = establishments
+                .stream()
+                .filter(establishment -> marker
+                        .getTitle()
+                        .equals(establishment.getName() + " - " + establishment.getCategory()))
+                .collect(Collectors.toCollection(ArrayList::new)).get(0);
+
+        reservationViewModel.setEstablishment(clickedEstablishment);
+
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                .navigate(R.id.action_nav_booking_to_reservationFragment);
     }
 }

@@ -13,7 +13,7 @@
     <string name="action_sign_in">Se connecter</string>
     <string name="welcome">"Bienvenue "</string>
     <string name="invalid_username">Nom d\'utilisateur invalide</string>
-    <string name="invalid_password">Le mot de passe doit faire plus de 5 caractères</string>
+    <string name="invalid_password">Le mot de passe est obligatoire</string>
     <string name="login_failed">La connexion a échoué</string>
     <string name="prompt_username">Nom d\'utilisateur</string>
     <string name="http_no_connection">Pas de connection : Vérifiez votre connexion Internet</string>
@@ -45,4 +45,10 @@
     <string name="error_400_add_customer">Mauvaise requête pour l\'ajout d\'un client</string>
     <string name="error_500">Erreur serveur</string>
     <string name="user_created">Utilisateur créé</string>
+    <string name="choose_date">Jour souhaité%1$s</string>
+    <string name="choose_arrival_time">Heure d\'arrivée%1$s</string>
+    <string name="prompt_guests_number">Nombre de personnes à table</string>
+    <string name="requests_for_waiter">Informations complémentaires pour le serveur</string>
+    <string name="accept_button">Réserver</string>
+    <string name="table_is_outside">La table doit être à l\'extérieur</string>
 </resources>

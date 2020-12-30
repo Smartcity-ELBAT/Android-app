@@ -17,7 +17,11 @@ public class AddressMapper {
         return instance;
     }
 
-    public Address mapToAddress(AddressDto dto) {
-        return dto == null ? null : new Address(dto.getStreet(), dto.getNumber(), dto.getCity(), dto.getPostalCode(), dto.getCountry());
+    public Address mapToAddress(String street,
+            String number,
+            String country,
+            String city,
+            String postalCode) {
+        return new Address(street, number, country, city, postalCode);
     }
 }
