@@ -58,7 +58,6 @@ public class LoginViewModel extends AndroidViewModel {
                     Claim userData = jwt.getClaim("userData");
 
                     token = response.body();
-
                     _user.setValue(userData.asObject(User.class));
                     _error.setValue(null);
                 }

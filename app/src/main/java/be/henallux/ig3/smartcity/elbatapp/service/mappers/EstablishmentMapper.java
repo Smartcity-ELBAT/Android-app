@@ -32,7 +32,7 @@ public class EstablishmentMapper {
                                 establishmentDto.getVATNumber(),
                                 establishmentDto.getEmail(),
                                 establishmentDto.getCategory(),
-                                AddressMapper.getInstance().mapToAddress(establishmentDto.getAddress())
+                                AddressMapper.getInstance().mapToAddress(establishmentDto.getStreet(), establishmentDto.getNumber(), establishmentDto.getCountry(), establishmentDto.getCity(), establishmentDto.getPostalCode())
                         )
                 ).collect(Collectors.toCollection(ArrayList::new));
     }

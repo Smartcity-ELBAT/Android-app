@@ -6,7 +6,11 @@ public class EstablishmentDto {
     private String VATNumber;
     private String email;
     private String category;
-    private AddressDto address;
+    private String street;
+    private String number;
+    private String country;
+    private String city;
+    private String postalCode;
 
     public Integer getId() {
         return id;
@@ -48,11 +52,43 @@ public class EstablishmentDto {
         this.category = category;
     }
 
-    public AddressDto getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(AddressDto address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }
