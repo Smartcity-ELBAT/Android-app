@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,6 +83,9 @@ public class RegistrationViewModel extends AndroidViewModel {
         if(!isWordValid(birthDate))
             errors.put("birthDate", getApplication().getResources().getString(R.string.invalid_field));
 
+        if(!isDateValid(birthDate))
+            errors.put("birthDateAge", getApplication().getResources().getString(R.string.birthDate_age));
+
         if(!isEmailValid(email))
             errors.put("email", getApplication().getResources().getString(R.string.invalid_email));
 
@@ -153,6 +157,7 @@ public class RegistrationViewModel extends AndroidViewModel {
     }
 
     private Boolean isDateValid(String date){
-        return true;
+        final Calendar calendar = Calendar.getInstance();
+        return Integer.parseInt(date.split("/")[2]) <= calendar.get(Calendar.YEAR) - 18;
     }
 }

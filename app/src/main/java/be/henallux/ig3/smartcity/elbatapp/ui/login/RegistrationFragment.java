@@ -64,10 +64,10 @@ public class RegistrationFragment extends Fragment {
 
         birthDate.setInputType(InputType.TYPE_NULL);
         birthDate.setOnClickListener(v -> {
-            final Calendar cldr = Calendar.getInstance();
-            int day = cldr.get(Calendar.DAY_OF_MONTH);
-            int month = cldr.get(Calendar.MONTH);
-            int year = cldr.get(Calendar.YEAR);
+            final Calendar calendar = Calendar.getInstance();
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
 
             birthDatePicker = new DatePickerDialog(getContext(),
                     (view, year1, month1, dayOfMonth) -> birthDate.setText(dayOfMonth + "/" + (month1 + 1) + "/" + year1), year, month, day);
@@ -124,6 +124,7 @@ public class RegistrationFragment extends Fragment {
                 lastName.setError(inputErrors.containsKey("lastName") ? inputErrors.get("lastName") : null);
                 firstName.setError(inputErrors.containsKey("firstName") ? inputErrors.get("firstName") : null);
                 birthDate.setError(inputErrors.containsKey("birthDate") ? inputErrors.get("birthDate") : null);
+                birthDate.setError(inputErrors.containsKey("birthDateAge") ? inputErrors.get("birthDateAge") : null);
                 email.setError(inputErrors.containsKey("email") ? inputErrors.get("email") : null);
                 phone.setError(inputErrors.containsKey("phone") ? inputErrors.get("phone") : null);
                 street.setError(inputErrors.containsKey("street") ? inputErrors.get("street") : null);

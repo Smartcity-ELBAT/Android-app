@@ -238,12 +238,13 @@
 
                 <Button
                     android:id="@+id/birth_date_prompt"
-                    android:layout_width="240dp"
+                    android:layout_width="219dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/secondaryColor"
                     android:ems="10"
                     android:hint="@string/enter_date"
-                    android:textColor="@color/primaryColor" />
+                    android:textColor="@color/primaryColor"
+                    android:paddingRight="20dp"/>
             </LinearLayout>
 
             <LinearLayout

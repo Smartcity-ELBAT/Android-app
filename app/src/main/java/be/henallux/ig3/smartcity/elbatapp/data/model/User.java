@@ -24,7 +24,6 @@ public class User {
         this.gender = gender;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.isPositiveToCovid19 = false;
         this.address = address;
     }
 

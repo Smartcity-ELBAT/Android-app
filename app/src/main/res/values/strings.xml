@@ -46,5 +46,6 @@
     <string name="error_400_add_customer">Bad request for adding customer</string>
     <string name="error_500">Server error</string>
     <string name="user_created">User created</string>
+    <string name="birthDate_age">You must have 18 years old at least !</string>
     <!-- Strings related to login -->
 </resources>
