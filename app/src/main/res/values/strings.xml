@@ -35,5 +35,16 @@
     <string name="locality">Locality</string>
     <string name="country">Country</string>
     <string name="elbat_icon_desription">ELBAT icon</string>
+    <string name="usernameError">Username is mandatory !</string>
+    <string name="invalid_lastName">LastName is mandatory and can only contains letters</string>
+    <string name="invalid_firstName">FirstName is mandatory and can only contains letters</string>
+    <string name="invalid_email">Email is mandatody and must contains a @</string>
+    <string name="invalid_phoneNumber">Phone number is mandatory and can contains only numbers (not +, not /, not .)</string>
+    <string name="invalid_field">This field is mandatory !</string>
+    <string name="invalid_password_confirm">This field is mandatory and must be the same as password</string>
+    <string name="enter_date">Enter Date</string>
+    <string name="error_400_add_customer">Bad request for adding customer</string>
+    <string name="error_500">Server error</string>
+    <string name="user_created">User created</string>
     <!-- Strings related to login -->
 </resources>

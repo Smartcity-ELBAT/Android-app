@@ -1,18 +1,29 @@
 package be.henallux.ig3.smartcity.elbatapp.data.model;
 
 public class Address {
+    private Integer id;
     private String street;
     private String number;
     private String postalCode;
     private String city;
     private String country;
 
+
+    // registration
     public Address(String street, String number, String postalCode, String city, String country) {
         this.street = street;
         this.number = number;
         this.postalCode = postalCode;
         this.city = city;
         this.country = country;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getStreet() {
@@ -57,5 +68,17 @@ public class Address {
 
     public String fullAddress() {
         return number + " " + street + ", " + postalCode + " " + city + " " +  country;
+    }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", number='" + number + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }

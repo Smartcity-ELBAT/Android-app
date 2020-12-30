@@ -1,11 +1,5 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.login;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,9 +16,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import be.henallux.ig3.smartcity.elbatapp.ui.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+
 import be.henallux.ig3.smartcity.elbatapp.R;
 import be.henallux.ig3.smartcity.elbatapp.data.model.User;
+import be.henallux.ig3.smartcity.elbatapp.ui.MainActivity;
 
 public class LoginFragment extends Fragment {
 
@@ -93,8 +93,10 @@ public class LoginFragment extends Fragment {
                         passwordEditText.getText().toString());
             }
         };
+
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
+
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(usernameEditText.getText().toString(),

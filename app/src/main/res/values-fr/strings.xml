@@ -34,4 +34,15 @@
     <string name="country">Pays</string>
     <string name="confirm_password">Confirmation</string>
     <string name="elbat_icon_desription">Icône ELBAT</string>
+    <string name="usernameError">Le nom d\'utilisateur est obligatoire !</string>
+    <string name="invalid_lastName">Le nom est obligatoire et contient seulement des lettres</string>
+    <string name="invalid_firstName">Le prénom est obligatoire et contient seulement des lettres</string>
+    <string name="invalid_email">L\'email est obligatoire et doit contenir un @</string>
+    <string name="invalid_phoneNumber">Le numéro de téléphone est obligatoire et contient uniquement des chiffres (pas de +, ni de /, ni de .)</string>
+    <string name="invalid_field">Ce champs est obligatoire !</string>
+    <string name="invalid_password_confirm">Ce champs est obligatoire et doit être le même que le mot de passe</string>
+    <string name="enter_date">Entrer une date</string>
+    <string name="error_400_add_customer">Mauvaise requête pour l\'ajout d\'un client</string>
+    <string name="error_500">Erreur serveur</string>
+    <string name="user_created">Utilisateur créé</string>
 </resources>

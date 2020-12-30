@@ -9,6 +9,14 @@ public class AddressDto {
     private String city;
     private String postalCode;
 
+    public AddressDto(String street, String number, String country, String city, String postalCode) {
+        this.street = street;
+        this.number = number;
+        this.country = country;
+        this.city = city;
+        this.postalCode = postalCode;
+    }
+
     public Integer getId() {
         return id;
     }
