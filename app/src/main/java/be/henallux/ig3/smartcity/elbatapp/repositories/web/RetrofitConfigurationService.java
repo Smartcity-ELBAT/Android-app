@@ -27,7 +27,6 @@ public class RetrofitConfigurationService {
     private Retrofit retrofitClient;
     private OkHttpClient client;
 
-
     private static ELBATWebService ELBATWebService;
 
     static {
