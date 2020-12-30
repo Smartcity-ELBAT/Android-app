@@ -14,7 +14,7 @@
     <string name="action_sign_in">Sign in</string>
     <string name="welcome">"Welcome "</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">Password must not be empty</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_login">Login</string>
     <string name="http_no_connection">No Connection; Check your connectivity</string>
@@ -35,5 +35,11 @@
     <string name="locality">Locality</string>
     <string name="country">Country</string>
     <string name="elbat_icon_desription">ELBAT icon</string>
+    <string name="choose_date">Chosen date%1$s</string>
+    <string name="choose_arrival_time">Arrival time%1$s</string>
+    <string name="prompt_guests_number">Number of guests</string>
+    <string name="requests_for_waiter">Requests for the waiter to best manage your experience</string>
+    <string name="accept_button">Book this date</string>
+    <string name="table_is_outside">The table must be outside</string>
     <!-- Strings related to login -->
 </resources>

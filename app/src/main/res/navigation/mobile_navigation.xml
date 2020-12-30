@@ -9,15 +9,27 @@
             android:id="@+id/nav_booking"
             android:name="be.henallux.ig3.smartcity.elbatapp.ui.tableBooking.EstablishmentsMapFragment"
             android:label="@string/menu_map"
-            tools:layout="@layout/fragment_establishments_map" />
-        <fragment
-            android:id="@+id/nav_account"
-            android:name="be.henallux.ig3.smartcity.elbatapp.ui.account.GalleryFragment"
-            android:label="@string/menu_my_account"
-            tools:layout="@layout/fragment_gallery" />
-        <fragment
-            android:id="@+id/nav_bookings"
-            android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.SlideshowFragment"
-            android:label="@string/menu_my_bookings"
-            tools:layout="@layout/fragment_slideshow" />
+            tools:layout="@layout/fragment_establishments_map" >
+        <action
+            android:id="@+id/action_nav_booking_to_reservationFragment"
+            app:destination="@id/fragment_reservation" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_account"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.account.GalleryFragment"
+        android:label="@string/menu_my_account"
+        tools:layout="@layout/fragment_gallery" />
+
+    <fragment
+        android:id="@+id/nav_bookings"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.SlideshowFragment"
+        android:label="@string/menu_my_bookings"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/fragment_reservation"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.tableBooking.ReservationFragment"
+        android:label="fragment_reservation"
+        tools:layout="@layout/fragment_reservation" />
 </navigation>
