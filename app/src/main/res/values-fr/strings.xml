@@ -51,4 +51,22 @@
     <string name="requests_for_waiter">Informations complémentaires pour le serveur</string>
     <string name="accept_button">Réserver</string>
     <string name="table_is_outside">La table doit être à l\'extérieur</string>
+    <string name="birthDate_age">Vous devez avoir au moins 18 ans !</string>
+    <string name="address">Adresse</string>
+    <string name="update_password">Mettre à jour le mot de passe</string>
+    <string name="update_user_data">Mettre à jour mes informations personnelles</string>
+    <string name="my_account">Mon compte</string>
+    <string name="error_400_load_user">Mauvaise requête pour le chargement de l\'utilisateur</string>
+    <string name="error_404_load_user">Utilisateur non trouvé</string>
+    <string name="old_password">Mot de passe actuel</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="confirm_new_password">Confirmation</string>
+    <string name="save_update_password">Sauver</string>
+    <string name="registration">Enregistrement</string>
+    <string name="password_updated">Mot de passe mis à jour</string>
+    <string name="error_400_update_password">Mauvaise requête pour la mise à jour d\'un mot de passe</string>
+    <string name="error_403_forbidden">Action interdite</string>
+    <string name="error_404_update_password">Utilisateur non trouvé pour la mise à jour de son mot de passe</string>
+    <string name="error_401_unauthorized">Action non autorisée</string>
+    <string name="invalid_birth_date">La date de naissance est obligatoire !</string>
 </resources>

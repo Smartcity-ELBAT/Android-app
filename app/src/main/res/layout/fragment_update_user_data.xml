@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
-    tools:context=".ui.login.RegistrationFragment">
+    tools:context=".ui.account.UpdateUserDataFragment">
 
     <ScrollView
         android:id="@+id/scroll_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,10 +18,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <TextView
-                android:id="@+id/error"
+                android:id="@+id/error_update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/holo_red_dark"
@@ -37,97 +37,11 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/username_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/username_prompt"
-                    android:text="@string/prompt_username" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:id="@+id/username_prompt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:autofillHints="username"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:importantForAutofill="yes" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/password_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:labelFor="@+id/password_prompt"
-                    android:text="@string/prompt_password" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:id="@+id/password_prompt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:autofillHints="password"
-                    android:ems="10"
-                    android:inputType="textPassword"
-                    android:importantForAutofill="yes" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/password_confirmation_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:labelFor="@id/confirm_password_prompt"
-                    android:text="@string/confirm_password" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:id="@+id/confirm_password_prompt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:ems="10"
-                    android:inputType="textPassword"
-                    android:importantForAutofill="no" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
                     android:id="@+id/name_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:labelFor="@id/name_prompt"
+                    android:labelFor="@id/name_update"
                     android:text="@string/name" />
 
                 <Space
@@ -136,7 +50,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/name_prompt"
+                    android:id="@+id/name_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -155,7 +69,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:labelFor="@id/first_name_prompt"
+                    android:labelFor="@id/first_name_update"
                     android:text="@string/first_name" />
 
                 <Space
@@ -164,7 +78,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/first_name_prompt"
+                    android:id="@+id/first_name_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -174,7 +88,7 @@
             </LinearLayout>
 
             <RadioGroup
-                android:id="@+id/gender_group"
+                android:id="@+id/gender_group_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -186,7 +100,7 @@
                     android:layout_weight="1" />
 
                 <RadioButton
-                    android:id="@+id/woman_button"
+                    android:id="@+id/woman_button_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/woman"
@@ -198,7 +112,7 @@
                     android:layout_weight="1" />
 
                 <RadioButton
-                    android:id="@+id/man_button"
+                    android:id="@+id/man_button_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/man" />
@@ -209,7 +123,7 @@
                     android:layout_weight="1" />
 
                 <RadioButton
-                    android:id="@+id/other_button"
+                    android:id="@+id/other_button_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/other" />
@@ -230,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:labelFor="@id/birth_date_prompt"
+                    android:labelFor="@id/birth_date_update"
                     android:text="@string/birth_date"
                     />
 
@@ -240,7 +154,7 @@
                     android:layout_weight="1" />
 
                 <Button
-                    android:id="@+id/birth_date_prompt"
+                    android:id="@+id/birth_date_update"
                     android:layout_width="219dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/secondaryColor"
@@ -248,33 +162,6 @@
                     android:hint="@string/enter_date"
                     android:textColor="@color/primaryColor"
                     android:paddingRight="20dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/email_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@+id/email_address_prompt"
-                    android:text="@string/email" />
-
-                <Space
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <EditText
-                    android:id="@+id/email_address_prompt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:autofillHints="email"
-                    android:ems="10"
-                    android:importantForAutofill="yes"
-                    android:inputType="textEmailAddress" />
             </LinearLayout>
 
             <LinearLayout
@@ -287,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:labelFor="@id/phone_number_prompt"
+                    android:labelFor="@id/phone_number_update"
                     android:text="@string/phone_number" />
 
                 <Space
@@ -296,7 +183,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/phone_number_prompt"
+                    android:id="@+id/phone_number_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -315,7 +202,7 @@
                     android:id="@+id/street_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:labelFor="@id/street_prompt"
+                    android:labelFor="@id/street_update"
                     android:layout_weight="1"
                     android:text="@string/street" />
 
@@ -325,7 +212,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/street_prompt"
+                    android:id="@+id/street_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -345,7 +232,7 @@
                     android:id="@+id/street_number_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:labelFor="@+id/street_number_prompt"
+                    android:labelFor="@+id/street_number_update"
                     android:text="@string/number" />
 
                 <Space
@@ -354,7 +241,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/street_number_prompt"
+                    android:id="@+id/street_number_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -372,7 +259,7 @@
                     android:id="@+id/postal_code_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:labelFor="@+id/postal_code_prompt"
+                    android:labelFor="@+id/postal_code_update"
                     android:layout_weight="1"
                     android:text="@string/postal_code" />
 
@@ -382,7 +269,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/postal_code_prompt"
+                    android:id="@+id/postal_code_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -400,7 +287,7 @@
                     android:id="@+id/locality_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:labelFor="@+id/locality_prompt"
+                    android:labelFor="@+id/locality_update"
                     android:layout_weight="1"
                     android:text="@string/locality" />
 
@@ -410,7 +297,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/locality_prompt"
+                    android:id="@+id/locality_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -428,7 +315,7 @@
                     android:id="@+id/country_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:labelFor="@+id/country_prompt"
+                    android:labelFor="@+id/country_update"
                     android:layout_weight="1"
                     android:text="@string/country" />
 
@@ -438,7 +325,7 @@
                     android:layout_weight="1" />
 
                 <EditText
-                    android:id="@+id/country_prompt"
+                    android:id="@+id/country_update"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
@@ -455,7 +342,7 @@
                 style="?android:attr/buttonBarStyle">
 
                 <Button
-                    android:id="@+id/cancel_button"
+                    android:id="@+id/cancel_update_button"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -463,7 +350,7 @@
                     android:text="@android:string/cancel" />
 
                 <Button
-                    android:id="@+id/confirm_button"
+                    android:id="@+id/confirm_update_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -473,4 +360,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

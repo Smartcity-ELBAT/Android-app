@@ -17,6 +17,11 @@ public class AddressDto {
         this.postalCode = postalCode;
     }
 
+    public AddressDto(Integer id, String street, String number, String country, String city, String postalCode) {
+        this(street, number, postalCode, city, country);
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

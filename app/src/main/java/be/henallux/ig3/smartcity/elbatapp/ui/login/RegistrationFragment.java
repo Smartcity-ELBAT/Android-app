@@ -1,5 +1,6 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.login;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -35,11 +38,13 @@ public class RegistrationFragment extends Fragment {
     private RegistrationViewModel registrationViewModel;
     private TextView error;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_registration, container, false);
-        registrationViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.registration));
 
         email = root.findViewById(R.id.email_address_prompt);
         username = root.findViewById(R.id.username_prompt);
@@ -116,42 +121,6 @@ public class RegistrationFragment extends Fragment {
 
         cancelButton.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.loginFragment));
 
-        registrationViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
-            if(!inputErrors.isEmpty()) {
-                username.setError(inputErrors.containsKey("username") ? inputErrors.get("username") : null);
-                password.setError(inputErrors.containsKey("password") ? inputErrors.get("password") : null);
-                confirmPassword.setError(inputErrors.containsKey("passwordConfirm") ? inputErrors.get("passwordConfirm") : null);
-                lastName.setError(inputErrors.containsKey("lastName") ? inputErrors.get("lastName") : null);
-                firstName.setError(inputErrors.containsKey("firstName") ? inputErrors.get("firstName") : null);
-                birthDate.setError(inputErrors.containsKey("birthDate") ? inputErrors.get("birthDate") : null);
-                birthDate.setError(inputErrors.containsKey("birthDateAge") ? inputErrors.get("birthDateAge") : null);
-                email.setError(inputErrors.containsKey("email") ? inputErrors.get("email") : null);
-                phone.setError(inputErrors.containsKey("phone") ? inputErrors.get("phone") : null);
-                street.setError(inputErrors.containsKey("street") ? inputErrors.get("street") : null);
-                streetNumber.setError(inputErrors.containsKey("streetNumber") ? inputErrors.get("streetNumber") : null);
-                locality.setError(inputErrors.containsKey("city") ? inputErrors.get("city") : null);
-                postalCode.setError(inputErrors.containsKey("postalCode") ? inputErrors.get("postalCode") : null);
-                country.setError(inputErrors.containsKey("country") ? inputErrors.get("country") : null);
-            }
-            confirmButton.setEnabled(inputErrors.isEmpty());
-        });
-
-        registrationViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-                error.setText(networkError.getErrorMessage());
-        });
-
-        registrationViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
-
-            if(integer == 400)
-                error.setText(R.string.error_400_add_customer);
-            else if(integer == 500)
-                error.setText(R.string.error_500);
-            else if (integer == 201){
-                Toast.makeText(getActivity(), getResources().getString(R.string.user_created), Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(requireView()).navigate(R.id.loginFragment);
-            }
-        });
-
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -185,6 +154,50 @@ public class RegistrationFragment extends Fragment {
         country.addTextChangedListener(afterTextChangedListener);
 
         return root;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        registrationViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
+
+        registrationViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
+            // TODO erreur pour la date ne s'affiche pas
+
+            if(!inputErrors.isEmpty()) {
+                username.setError(inputErrors.containsKey("username") ? inputErrors.get("username") : null);
+                password.setError(inputErrors.containsKey("password") ? inputErrors.get("password") : null);
+                confirmPassword.setError(inputErrors.containsKey("passwordConfirm") ? inputErrors.get("passwordConfirm") : null);
+                lastName.setError(inputErrors.containsKey("lastName") ? inputErrors.get("lastName") : null);
+                firstName.setError(inputErrors.containsKey("firstName") ? inputErrors.get("firstName") : null);
+                birthDate.setError(inputErrors.containsKey("birthDate") ? inputErrors.get("birthDate") : null);
+                birthDate.setError(inputErrors.containsKey("birthDateAge") ? inputErrors.get("birthDateAge") : null);
+                email.setError(inputErrors.containsKey("email") ? inputErrors.get("email") : null);
+                phone.setError(inputErrors.containsKey("phone") ? inputErrors.get("phone") : null);
+                street.setError(inputErrors.containsKey("street") ? inputErrors.get("street") : null);
+                streetNumber.setError(inputErrors.containsKey("streetNumber") ? inputErrors.get("streetNumber") : null);
+                locality.setError(inputErrors.containsKey("city") ? inputErrors.get("city") : null);
+                postalCode.setError(inputErrors.containsKey("postalCode") ? inputErrors.get("postalCode") : null);
+                country.setError(inputErrors.containsKey("country") ? inputErrors.get("country") : null);
+            }
+            confirmButton.setEnabled(inputErrors.isEmpty());
+        });
+
+        registrationViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
+            error.setText(networkError.getErrorMessage());
+        });
+
+        registrationViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            if(integer == 400)
+                error.setText(R.string.error_400_add_customer);
+            else if(integer == 500)
+                error.setText(R.string.error_500);
+            else if (integer == 201){
+                Toast.makeText(getActivity(), getResources().getString(R.string.user_created), Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(requireView()).navigate(R.id.loginFragment);
+            }
+        });
     }
 
     private void checkData(){

@@ -4,12 +4,15 @@ import java.util.List;
 
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.EstablishmentDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.LoginCredentialsDto;
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.PasswordDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.UserDto;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ELBATWebService {
     @POST("/user/login")
@@ -20,4 +23,11 @@ public interface ELBATWebService {
 
     @POST("/person/")
     Call<Void> addUser(@Body UserDto user);
+
+    @GET("/person/customer/{id}")
+    Call<UserDto> getUserById(@Header(value = "Authorization") String token, @Path("id") Integer id);
+
+    @PATCH("/person/updatePassword/")
+    Call<Void> updatePassword(@Header(value = "Authorization") String token, @Body PasswordDto password);
+
 }

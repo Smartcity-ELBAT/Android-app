@@ -8,7 +8,6 @@ public class Address {
     private String city;
     private String country;
 
-
     // registration
     public Address(String street, String number, String postalCode, String city, String country) {
         this.street = street;
@@ -16,6 +15,12 @@ public class Address {
         this.postalCode = postalCode;
         this.city = city;
         this.country = country;
+    }
+
+    // getUserById
+    public Address(Integer id, String street, String number, String postalCode, String city, String country) {
+        this(street, number, postalCode, city, country);
+        this.id = id;
     }
 
     public Integer getId() {

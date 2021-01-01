@@ -27,6 +27,13 @@ public class User {
         this.address = address;
     }
 
+    // getUserById
+    public User(Integer id, String username, String password, String lastName, String firstName,
+                String birthDate, String email, String phoneNumber, Character gender, Address address) {
+        this(username, password, lastName, firstName, birthDate, gender, email, phoneNumber, address);
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -53,5 +53,23 @@
     <string name="requests_for_waiter">Requests for the waiter to best manage your experience</string>
     <string name="accept_button">Book this date</string>
     <string name="table_is_outside">The table must be outside</string>
+    <string name="address">Address</string>
+    <string name="update_password">Update password</string>
+    <string name="update_user_data">Update user data</string>
+    <string name="error_400_load_user">Bad request for loading user</string>
+    <string name="error_404_load_user">User not found</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="my_account">My account</string>
+    <string name="old_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="save_update_password">Save</string>
+    <string name="registration">Registration</string>
+    <string name="password_updated">Password updated</string>
+    <string name="error_400_update_password">Bad request for updating password</string>
+    <string name="error_403_forbidden">This action is forbidden !</string>
+    <string name="error_404_update_password">The user is not found to update his password</string>
+    <string name="error_401_unauthorized">Action not authorized</string>
+    <string name="invalid_birth_date">BirthDate is mandatory !</string>
     <!-- Strings related to login -->
 </resources>
