@@ -69,4 +69,23 @@
     <string name="error_404_update_password">Utilisateur non trouvé pour la mise à jour de son mot de passe</string>
     <string name="error_401_unauthorized">Action non autorisée</string>
     <string name="invalid_birth_date">La date de naissance est obligatoire !</string>
+    <string name="data_updated">Données de l\'utilisateur mises à jour</string>
+    <string name="error_400_update_user_data">Mauvaise requête pour la mise à jour des données de l\'utilisateur</string>
+    <string name="error_404_update_user_data">Utilisateur ou adresse non trouvé(e) pour la mise à jour</string>
+    <string name="error_400_load_bookings">Mauvaise requête pour le chargement des réservations</string>
+    <string name="error_404_load_bookings">Aucune réservation</string>
+    <string name="bookings_loaded">Réservations chargées</string>
+    <string name="booking_date">Date</string>
+    <string name="establishment_name">Restaurant</string>
+    <string name="nb_person">Nombre de personnes</string>
+    <string name="date_text_details">Date et heure</string>
+    <string name="table_text_details">Table en extérieur</string>
+    <string name="nb_person_text_details">Nombre de clients</string>
+    <string name="additional_info">Informations pour l\'établissement</string>
+    <string name="cancel_booking">Annuler la réservation</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="error_400_cancel_booking">Mauvaise requête pour l\'annulation d\'une réservation</string>
+    <string name="error_404_cancel_booking">Réservation à annuler non trouvée</string>
+    <string name="booking_cancelled">Réservation annulée</string>
 </resources>

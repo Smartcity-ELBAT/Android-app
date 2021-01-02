@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_account">
+    app:startDestination="@id/nav_bookings">
 
     <fragment
             android:id="@+id/nav_booking"
@@ -30,9 +30,13 @@
 
     <fragment
         android:id="@+id/nav_bookings"
-        android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.SlideshowFragment"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.BookingsListFragment"
         android:label="@string/menu_my_bookings"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_bookings_list" >
+        <action
+            android:id="@+id/action_nav_bookings_to_bookingDetailsFragment3"
+            app:destination="@id/bookingDetailsFragment3" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_reservation"
@@ -59,6 +63,9 @@
         <action
             android:id="@+id/action_updateUserDataFragment_to_nav_account2"
             app:destination="@id/nav_account" />
+        <action
+            android:id="@+id/action_updateUserDataFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment2"
@@ -68,5 +75,13 @@
         <action
             android:id="@+id/action_loginFragment2_to_nav_account"
             app:destination="@id/nav_account" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingDetailsFragment3"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.BookingDetailsFragment"
+        android:label="BookingDetailsFragment" >
+        <action
+            android:id="@+id/action_bookingDetailsFragment3_to_nav_bookings"
+            app:destination="@id/nav_bookings" />
     </fragment>
 </navigation>

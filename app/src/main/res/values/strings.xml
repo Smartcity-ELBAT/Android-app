@@ -71,5 +71,25 @@
     <string name="error_404_update_password">The user is not found to update his password</string>
     <string name="error_401_unauthorized">Action not authorized</string>
     <string name="invalid_birth_date">BirthDate is mandatory !</string>
+    <string name="data_updated">User data updated</string>
+    <string name="error_400_update_user_data">Bad request for updating user data</string>
+    <string name="error_404_update_user_data">User or address to update not found</string>
+    <string name="error_400_load_bookings">Bad request for loading bookings</string>
+    <string name="bookings_loaded">Bookings loaded</string>
+    <string name="booking_date">Date</string>
+    <string name="establishment_name">Establishment</string>
+    <string name="nb_person">Number of person</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="date_text_details">Date and time</string>
+    <string name="table_text_details">Table outside</string>
+    <string name="nb_person_text_details">Number of clients</string>
+    <string name="additional_info">Informations for establishment</string>
+    <string name="cancel_booking">Cancel booking</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="error_400_cancel_booking">Bad request for cancelled booking</string>
+    <string name="error_404_cancel_booking">Booking to cancel not found</string>
+    <string name="booking_cancelled">Booking is cancel</string>
+    <string name="error_404_load_bookings">No booking</string>
     <!-- Strings related to login -->
 </resources>

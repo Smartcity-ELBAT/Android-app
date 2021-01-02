@@ -112,7 +112,7 @@ public class RegistrationViewModel extends AndroidViewModel {
                         String street, String streetNumber, String city, String postalCode, String country){
 
         Address address = new Address(street, streetNumber, postalCode, city, country);
-        char sexe = gender.equals(getApplication().getResources().getString(R.string.woman)) ? 'f' : gender.equals(getApplication().getResources().getString(R.string.man)) ? 'm' : 'a';
+        char sexe = gender.equals(getApplication().getResources().getString(R.string.woman)) ? 'F' : gender.equals(getApplication().getResources().getString(R.string.man)) ? 'M' : 'A';
         User user = new User(username, password, lastName, firstName, birthDate, sexe, email, phoneNumber, address);
 
         webService.addUser(userMapper.mapToUserDto(user)).enqueue(new Callback<Void>() {

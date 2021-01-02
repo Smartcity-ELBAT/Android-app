@@ -35,8 +35,6 @@ public class InputCheck {
 
     public static Boolean isAgeValid(String date){
         final Calendar calendar = Calendar.getInstance();
-        System.out.println("date");
-        System.out.println(date);
         return Integer.parseInt(date.split("/")[2]) <= calendar.get(Calendar.YEAR) - 18;
     }
 }

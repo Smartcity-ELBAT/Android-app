@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.data.model.Address;
 import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Password;
 import be.henallux.ig3.smartcity.elbatapp.data.model.User;
@@ -45,12 +46,22 @@ public class AccountViewModel extends AndroidViewModel {
     private ELBATWebService webService;
     private UserMapper userMapper;
     private PasswordMapper passwordMapper;
+    private String token;
+    private User userFromToken;
 
     public AccountViewModel(Application application) {
         super(application);
         this.webService = RetrofitConfigurationService.getInstance(getApplication()).getELBATWebService();
         this.userMapper = UserMapper.getInstance();
         this.passwordMapper = PasswordMapper.getInstance();
+
+        token = getApplication()
+                .getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE)
+                .getString("JSONWEBTOKEN", "");
+
+        JWT jwt = new JWT(token);
+        Claim userData = jwt.getClaim("userData");
+        userFromToken = Objects.requireNonNull(userData.asObject(User.class));
     }
 
     public LiveData<User> getUser() {
@@ -70,14 +81,7 @@ public class AccountViewModel extends AndroidViewModel {
     }
 
     public void loadUser(){
-
-        String token = getApplication()
-                .getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE)
-                .getString("JSONWEBTOKEN", "");
-
-        JWT jwt = new JWT(token);
-        Claim userData = jwt.getClaim("userData");
-        Integer userId = Objects.requireNonNull(userData.asObject(User.class)).getId();
+        Integer userId = userFromToken.getId();
 
         webService.getUserById("Bearer " + token, userId).enqueue(new Callback<UserDto>() {
             @Override
@@ -96,13 +100,7 @@ public class AccountViewModel extends AndroidViewModel {
     }
 
     public void updatePassword(String currentPassword, String newPassword){
-        String token = getApplication()
-                .getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE)
-                .getString("JSONWEBTOKEN", "");
-
-        JWT jwt = new JWT(token);
-        Claim userData = jwt.getClaim("userData");
-        String username = Objects.requireNonNull(userData.asObject(User.class)).getUsername();
+        String username = userFromToken.getUsername();
         Password password = new Password(currentPassword, newPassword, username);
 
         webService.updatePassword("Bearer " + token, passwordMapper.mapToPasswordDto(password)).enqueue(new Callback<Void>() {
@@ -116,7 +114,26 @@ public class AccountViewModel extends AndroidViewModel {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
+    }
 
+    public void updateUser(String lastName, String firstName, String birthDate, String gender, String phoneNumber,
+                           String street, String number, String postalCode, String locality, String country){
+
+        Address address = new Address(street, number, postalCode, locality, country);
+        char sexe = gender.equals(getApplication().getResources().getString(R.string.woman)) ? 'F' : gender.equals(getApplication().getResources().getString(R.string.man)) ? 'M' : 'A';
+        User user = new User(lastName, firstName, birthDate, phoneNumber, sexe, address);
+
+        webService.updateUser("Bearer " + token, userMapper.mapToUserDto(user)).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                _statutCode.setValue(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
     }
 
     public void passwordDataChanged(String currentPassword, String newPassword, String confirmNewPassword){
@@ -130,6 +147,43 @@ public class AccountViewModel extends AndroidViewModel {
 
         if(!InputCheck.isPasswordValid(confirmNewPassword) || !InputCheck.isPasswordConfirm(newPassword, confirmNewPassword))
             errors.put("passwordConfirm", getApplication().getResources().getString(R.string.invalid_password_confirm));
+
+        _inputErrors.setValue(errors);
+    }
+
+    public void userDataChanged(String lastName, String firstName, String birthDate, String phoneNumber,
+                                    String street, String streetNumber, String city, String postalCode, String country){
+
+        HashMap<String, String> errors = new HashMap<>();
+
+        if(!InputCheck.isWordValid(lastName))
+            errors.put("lastName", getApplication().getResources().getString(R.string.invalid_lastName));
+
+        if(!InputCheck.isWordValid(firstName))
+            errors.put("firstName", getApplication().getResources().getString(R.string.invalid_firstName));
+
+        if(!InputCheck.isDateValid(birthDate))
+            errors.put("birthDate", getApplication().getResources().getString(R.string.invalid_birth_date));
+        else if(!InputCheck.isAgeValid(birthDate))
+            errors.put("birthDateAge", getApplication().getResources().getString(R.string.birthDate_age));
+
+        if(!InputCheck.isPhoneValid(phoneNumber))
+            errors.put("phone", getApplication().getResources().getString(R.string.invalid_phoneNumber));
+
+        if(!InputCheck.isWordValid(street))
+            errors.put("street", getApplication().getResources().getString(R.string.invalid_field));
+
+        if(!InputCheck.isWordValid(streetNumber))
+            errors.put("streetNumber", getApplication().getResources().getString(R.string.invalid_field));
+
+        if(!InputCheck.isWordValid(city))
+            errors.put("city", getApplication().getResources().getString(R.string.invalid_field));
+
+        if(!InputCheck.isWordValid(postalCode))
+            errors.put("postalCode", getApplication().getResources().getString(R.string.invalid_field));
+
+        if(!InputCheck.isWordValid(country))
+            errors.put("country", getApplication().getResources().getString(R.string.invalid_field));
 
         _inputErrors.setValue(errors);
     }
