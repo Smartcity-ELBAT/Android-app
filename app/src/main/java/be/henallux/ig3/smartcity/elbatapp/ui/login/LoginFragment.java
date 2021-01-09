@@ -17,7 +17,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -59,6 +62,7 @@ public class LoginFragment extends Fragment {
         final EditText passwordEditText = view.findViewById(R.id.password);
         final Button loginButton = view.findViewById(R.id.login_button);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
+        final LinearLayout errorLayout = view.findViewById(R.id.error_layout);
         final Button registerButton = view.findViewById(R.id.register_button);
 
         createNotificationChannel();
@@ -76,11 +80,20 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), loginResult -> {
-            if (loginResult == null) {
-                showLoginFailed();
-                return;
+        loginViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            if (error != null) {
+                loadingProgressBar.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.VISIBLE);
+
+                final ImageView errorDrawable = view.findViewById(R.id.error_image_view);
+                final TextView errorTextView = view.findViewById(R.id.error_label);
+
+                errorDrawable.setImageResource(error.getErrorDrawable());
+                errorTextView.setText(error.getErrorMessage());
             }
+        });
+
+        loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), loginResult -> {
             loadingProgressBar.setVisibility(View.GONE);
             requireActivity().setResult(Activity.RESULT_OK);
 
@@ -111,14 +124,10 @@ public class LoginFragment extends Fragment {
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { /* ignore */ }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { /* ignore */ }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -140,6 +149,7 @@ public class LoginFragment extends Fragment {
 
         loginButton.setOnClickListener(v -> {
             loadingProgressBar.setVisibility(View.VISIBLE);
+            errorLayout.setVisibility(View.GONE);
             loginViewModel.login(usernameEditText.getText().toString(),
                     passwordEditText.getText().toString());
         });
@@ -148,8 +158,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void updateUiWithUser(User user) {
-        String welcome = getString(R.string.welcome) + user.getFirstName();
-        Toast.makeText(requireContext(), welcome, Toast.LENGTH_LONG).show();
+        Toast.makeText(requireContext(), getString(R.string.welcome) + user.getFirstName(), Toast.LENGTH_LONG).show();
 
         SharedPreferences.Editor sharedPref = requireActivity().getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE).edit();
 
@@ -157,15 +166,6 @@ public class LoginFragment extends Fragment {
         sharedPref.apply();
 
         startActivity(new Intent(requireActivity(), MainActivity.class));
-    }
-
-    private void showLoginFailed() {
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(
-                    getContext().getApplicationContext(),
-                    R.string.login_failed,
-                    Toast.LENGTH_LONG).show();
-        }
     }
 
     private void createNotificationChannel() {

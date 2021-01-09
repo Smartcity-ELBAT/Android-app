@@ -63,6 +63,10 @@ public class EstablishmentsMapViewModel extends AndroidViewModel {
         });
     }
 
+    public LiveData<NetworkError> getError() {
+        return _error;
+    }
+
     public LiveData<List<Establishment>> getEstablishments() {
         return establishments;
     }

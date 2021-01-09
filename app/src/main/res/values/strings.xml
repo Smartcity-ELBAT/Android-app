@@ -46,19 +46,23 @@
     <string name="error_400_add_customer">Bad request for adding customer</string>
     <string name="error_500">Server error</string>
     <string name="user_created">User created</string>
-    <string name="birthDate_age">You must have 18 years old at least !</string>
+    <string name="birthDate_age">You must have 18 years old at least!</string>
     <string name="choose_date">Chosen date%1$s</string>
     <string name="choose_arrival_time">Arrival time%1$s</string>
     <string name="prompt_guests_number">Number of guests</string>
     <string name="requests_for_waiter">Requests for the waiter to best manage your experience</string>
     <string name="accept_button">Book this date</string>
     <string name="table_is_outside">The table must be outside</string>
+    <string name="no_connection_logo_label">No connection logo</string>
+    <string name="bad_credentials">Failed to login - please check your credentials</string>
+    <string name="bookings_to_come">Bookings to come</string>
+    <string name="past_or_canceled_bookings">Past or Canceled Bookings</string>
+    <string name="thanks_stay_safe">Thanks for letting us know ! Stay safe !</string>
     <string name="address">Address</string>
     <string name="update_password">Update password</string>
     <string name="update_user_data">Update user data</string>
     <string name="error_400_load_user">Bad request for loading user</string>
     <string name="error_404_load_user">User not found</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="my_account">My account</string>
     <string name="old_password">Current password</string>
     <string name="new_password">New password</string>
@@ -79,7 +83,6 @@
     <string name="booking_date">Date</string>
     <string name="establishment_name">Establishment</string>
     <string name="nb_person">Number of person</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="date_text_details">Date and time</string>
     <string name="table_text_details">Table outside</string>
     <string name="nb_person_text_details">Number of clients</string>
