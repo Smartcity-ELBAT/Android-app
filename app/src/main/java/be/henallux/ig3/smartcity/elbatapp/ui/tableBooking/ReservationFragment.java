@@ -15,26 +15,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.utils.RangeTimePickerDialog;
 
 public class ReservationFragment extends Fragment {
 
     private ReservationViewModel mViewModel;
 
-    private int day;
-    private int month;
-    private int year;
-    private int hour;
-    private int minutes;
+    private Integer day;
+    private Integer month;
+    private Integer year;
+    private Integer hour;
+    private Integer minutes;
+
+    private String dateAsString;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -44,15 +46,19 @@ public class ReservationFragment extends Fragment {
         final TextView chooseDateTextView = root.findViewById(R.id.choose_date);
         final TextView chooseTimeTextView = root.findViewById(R.id.choose_hour);
 
+        hour = 0;
+        minutes = 0;
+
         chooseDateTextView.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
 
-            final int calendarYear = calendar.get(Calendar.YEAR);
-            final int calendarMonth = calendar.get(Calendar.MONTH);
-            final int calendarDay = calendar.get(Calendar.DAY_OF_MONTH);
+            final int calendarYear = year != null ? year : calendar.get(Calendar.YEAR);
+            final int calendarMonth = month != null ? month : calendar.get(Calendar.MONTH);
+            final int calendarDay = day != null ? day : calendar.get(Calendar.DAY_OF_MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     requireActivity(),
+                    R.style.DateTimePickerTheme,
                     (view, year, month, dayOfMonth) -> {
 
                         day = dayOfMonth;
@@ -60,18 +66,24 @@ public class ReservationFragment extends Fragment {
                         this.year = year;
 
                         calendar.set(year, month, dayOfMonth, 0, 0);
+                        chooseTimeTextView.setEnabled(true);
 
-                        chooseDateTextView.setText(getString(R.string.choose_date, "\n" + DateFormat.format("dd/MM/yyyy", calendar)));
+                        dateAsString = (String) DateFormat.format("dd/MM/yyyy", calendar);
+
+                        chooseDateTextView.setText(getString(R.string.choose_date, "\n" + dateAsString));
                     }, calendarYear, calendarMonth, calendarDay
             );
+
+            datePickerDialog.getDatePicker().setMinDate(Date.from(Instant.now()).getTime());
 
             datePickerDialog.updateDate(calendarYear, calendarMonth, calendarDay);
             datePickerDialog.show();
         });
 
         chooseTimeTextView.setOnClickListener(v -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(
+            RangeTimePickerDialog timePickerDialog = new RangeTimePickerDialog(
                     requireActivity(),
+                    R.style.DateTimePickerTheme,
                     (view, hourOfDay, minute) -> {
                         Calendar calendar = Calendar.getInstance();
 
@@ -81,8 +93,22 @@ public class ReservationFragment extends Fragment {
                         calendar.set(0, 0, 0, hourOfDay, minute);
 
                         chooseTimeTextView.setText(getString(R.string.choose_arrival_time, "\n" + DateFormat.format("HH:mm", calendar)));
-                    }, 12, 0, true
+                    },
+                    Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                    Calendar.getInstance().get(Calendar.MINUTE),
+                    true
             );
+
+            if (DateFormat.format("dd/MM/yyyy", Date.from(Instant.now())).equals(dateAsString)) {
+                timePickerDialog.setMin(
+                        Calendar.getInstance().get(Calendar.HOUR_OF_DAY),
+                        Calendar.getInstance().get(Calendar.MINUTE)
+                );
+            } else {
+                timePickerDialog.setMin(-1, -1);
+            }
+
+            timePickerDialog.setMax(23, 0);
 
             timePickerDialog.updateTime(hour, minutes);
             timePickerDialog.show();

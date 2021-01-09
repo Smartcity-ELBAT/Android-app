@@ -51,4 +51,10 @@
     <string name="requests_for_waiter">Informations complémentaires pour le serveur</string>
     <string name="accept_button">Réserver</string>
     <string name="table_is_outside">La table doit être à l\'extérieur</string>
+    <string name="birthDate_age">Vous devez être âgé d\'au moins 18 ans !</string>
+    <string name="no_connection_logo_label">Logo pas de connection</string>
+    <string name="bad_credentials">Impossible de vous connecter.\nVérifiez vos identifiants.</string>
+    <string name="bookings_to_come">Réservations à venir</string>
+    <string name="past_or_canceled_bookings">Réservations passées ou annulées</string>
+    <string name="thanks_stay_safe">Merci de nous en faire part ! Soignez-vous bien !</string>
 </resources>
