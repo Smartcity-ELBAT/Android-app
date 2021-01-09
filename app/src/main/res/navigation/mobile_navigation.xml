@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_booking">
+    app:startDestination="@id/nav_bookings">
 
     <fragment
             android:id="@+id/nav_booking"
@@ -17,19 +17,81 @@
 
     <fragment
         android:id="@+id/nav_account"
-        android:name="be.henallux.ig3.smartcity.elbatapp.ui.account.GalleryFragment"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.account.AccountFragment"
         android:label="@string/menu_my_account"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_nav_account_to_updatePasswordFragment"
+            app:destination="@id/updatePasswordFragment" />
+        <action
+            android:id="@+id/action_nav_account_to_updateUserDataFragment"
+            app:destination="@id/updateUserDataFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_bookings"
-        android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.SlideshowFragment"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.BookingsListFragment"
         android:label="@string/menu_my_bookings"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_bookings_list" >
+        <action
+            android:id="@+id/action_nav_bookings_to_bookingDetailsFragment3"
+            app:destination="@id/bookingDetailsFragment3" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_corona"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.positifToCovid19.PositiveToCovidFragment"
+        android:label="@string/menu_covid_positive"
+        tools:layout="@layout/positif_to_covid_fragment">
+        <action
+            android:id="@+id/action_nav_corona_to_nav_booking"
+            app:destination="@id/nav_booking" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_reservation"
         android:name="be.henallux.ig3.smartcity.elbatapp.ui.tableBooking.ReservationFragment"
         android:label="fragment_reservation"
         tools:layout="@layout/fragment_reservation" />
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.account.UpdatePasswordFragment"
+        android:label="fragment_update_password"
+        tools:layout="@layout/fragment_update_password" >
+        <action
+            android:id="@+id/action_updatePasswordFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
+        <action
+            android:id="@+id/action_updatePasswordFragment_to_nav_account"
+            app:destination="@id/nav_account" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateUserDataFragment"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.account.UpdateUserDataFragment"
+        android:label="fragment_update_user_data"
+        tools:layout="@layout/fragment_update_user_data" >
+        <action
+            android:id="@+id/action_updateUserDataFragment_to_nav_account2"
+            app:destination="@id/nav_account" />
+        <action
+            android:id="@+id/action_updateUserDataFragment_to_loginFragment2"
+            app:destination="@id/loginFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment2"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment2_to_nav_account"
+            app:destination="@id/nav_account" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookingDetailsFragment3"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.bookings.BookingDetailsFragment"
+        android:label="BookingDetailsFragment" >
+        <action
+            android:id="@+id/action_bookingDetailsFragment3_to_nav_bookings"
+            app:destination="@id/nav_bookings" />
+    </fragment>
 </navigation>

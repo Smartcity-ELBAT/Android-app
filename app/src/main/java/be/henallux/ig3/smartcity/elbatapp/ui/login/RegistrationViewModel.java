@@ -9,10 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Calendar;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Address;
@@ -21,6 +18,7 @@ import be.henallux.ig3.smartcity.elbatapp.data.model.User;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.ELBATWebService;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.RetrofitConfigurationService;
 import be.henallux.ig3.smartcity.elbatapp.service.mappers.UserMapper;
+import be.henallux.ig3.smartcity.elbatapp.utils.InputCheck;
 import be.henallux.ig3.smartcity.elbatapp.utils.errors.NoConnectivityException;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,46 +63,45 @@ public class RegistrationViewModel extends AndroidViewModel {
 
         HashMap<String, String> errors = new HashMap<>();
 
-        if(!isWordValid(username))
+        if(!InputCheck.isWordValid(username))
             errors.put("username", getApplication().getResources().getString(R.string.usernameError));
 
-        if(!isPasswordValid(password))
+        if(!InputCheck.isPasswordValid(password))
             errors.put("password", getApplication().getResources().getString(R.string.invalid_password));
 
-        if(!isPasswordValid(passwordConfirm) || !isPasswordConfirm(password, passwordConfirm))
+        if(!InputCheck.isPasswordValid(passwordConfirm) || !InputCheck.isPasswordConfirm(password, passwordConfirm))
             errors.put("passwordConfirm", getApplication().getResources().getString(R.string.invalid_password_confirm));
 
-        if(!isWordValid(lastName))
+        if(!InputCheck.isWordValid(lastName))
             errors.put("lastName", getApplication().getResources().getString(R.string.invalid_lastName));
 
-        if(!isWordValid(firstName))
+        if(!InputCheck.isWordValid(firstName))
             errors.put("firstName", getApplication().getResources().getString(R.string.invalid_firstName));
 
-        if(!isWordValid(birthDate))
-            errors.put("birthDate", getApplication().getResources().getString(R.string.invalid_field));
-
-        if(!isDateValid(birthDate))
+        if(!InputCheck.isDateValid(birthDate))
+            errors.put("birthDate", getApplication().getResources().getString(R.string.invalid_birth_date));
+        else if(!InputCheck.isAgeValid(birthDate))
             errors.put("birthDateAge", getApplication().getResources().getString(R.string.birthDate_age));
 
-        if(!isEmailValid(email))
+        if(!InputCheck.isEmailValid(email))
             errors.put("email", getApplication().getResources().getString(R.string.invalid_email));
 
-        if(!isPhoneValid(phoneNumber))
+        if(!InputCheck.isPhoneValid(phoneNumber))
             errors.put("phone", getApplication().getResources().getString(R.string.invalid_phoneNumber));
 
-        if(!isWordValid(street))
+        if(!InputCheck.isWordValid(street))
             errors.put("street", getApplication().getResources().getString(R.string.invalid_field));
 
-        if(!isWordValid(streetNumber))
+        if(!InputCheck.isWordValid(streetNumber))
             errors.put("streetNumber", getApplication().getResources().getString(R.string.invalid_field));
 
-        if(!isWordValid(city))
+        if(!InputCheck.isWordValid(city))
             errors.put("city", getApplication().getResources().getString(R.string.invalid_field));
 
-        if(!isWordValid(postalCode))
+        if(!InputCheck.isWordValid(postalCode))
             errors.put("postalCode", getApplication().getResources().getString(R.string.invalid_field));
 
-        if(!isWordValid(country))
+        if(!InputCheck.isWordValid(country))
             errors.put("country", getApplication().getResources().getString(R.string.invalid_field));
 
         _inputErrors.setValue(errors);
@@ -115,8 +112,7 @@ public class RegistrationViewModel extends AndroidViewModel {
                         String street, String streetNumber, String city, String postalCode, String country){
 
         Address address = new Address(street, streetNumber, postalCode, city, country);
-        char sexe = gender.equals(getApplication().getResources().getString(R.string.woman)) ? 'f' :
-                gender.equals(getApplication().getResources().getString(R.string.man)) ? 'm' : 'a';
+        char sexe = gender.equals(getApplication().getResources().getString(R.string.woman)) ? 'F' : gender.equals(getApplication().getResources().getString(R.string.man)) ? 'M' : 'A';
         User user = new User(username, password, lastName, firstName, birthDate, sexe, email, phoneNumber, address);
 
         webService.addUser(userMapper.mapToUserDto(user)).enqueue(new Callback<Void>() {
@@ -130,34 +126,5 @@ public class RegistrationViewModel extends AndroidViewModel {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
-    }
-
-    private Boolean isPasswordValid(String password){
-        return password != null && password.trim().length() > 5;
-    }
-
-    private Boolean isPasswordConfirm(String password, String passwordConfirm){
-        return password.trim().equals(passwordConfirm.trim());
-    }
-
-    private Boolean isWordValid(String word){
-        return word != null && !word.trim().isEmpty();
-    }
-
-    private Boolean isEmailValid(String email){
-        Pattern pattern = Pattern.compile("^(.+)@(.+)$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(email);
-        return isWordValid(email) && matcher.matches();
-    }
-
-    private Boolean isPhoneValid(String phone){
-        Pattern pattern = Pattern.compile("^\\d+$", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(phone);
-        return isWordValid(phone) && matcher.matches();
-    }
-
-    private Boolean isDateValid(String date){
-        final Calendar calendar = Calendar.getInstance();
-        return Integer.parseInt(date.split("/")[2]) <= calendar.get(Calendar.YEAR) - 18;
     }
 }

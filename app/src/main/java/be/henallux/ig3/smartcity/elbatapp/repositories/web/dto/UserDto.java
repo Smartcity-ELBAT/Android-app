@@ -14,7 +14,7 @@ public class UserDto {
     private AddressDto address;
 
     public UserDto(String username, String password, String lastName, String firstName, String birthDate,
-                   Character gender, String phoneNumber, String email, Boolean isPositiveToCovid19, AddressDto address) {
+                   Character gender, String phoneNumber, String email, AddressDto address) {
         this.username = username;
         this.password = password;
         this.lastName = lastName;
@@ -23,8 +23,14 @@ public class UserDto {
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.isPositiveToCovid19 = isPositiveToCovid19;
         this.address = address;
+    }
+
+
+    public UserDto(Integer id, String username, String password, String lastName, String firstName, String birthDate,
+                   Character gender, String phoneNumber, String email, AddressDto address) {
+        this(username, password, lastName, firstName, birthDate, gender, phoneNumber, email, address);
+        this.id = id;
     }
 
     public Integer getId() {
@@ -68,7 +74,10 @@ public class UserDto {
     }
 
     public String getBirthDate() {
-        return birthDate;
+        String [] splitBirthDateHours = birthDate.split("T");
+        String [] splitBirthDate = splitBirthDateHours[0].split("-");
+
+        return splitBirthDate[2] + "/" + splitBirthDate[1] + "/" + splitBirthDate[0];
     }
 
     public void setBirthDate(String  birthDate) {
@@ -81,6 +90,22 @@ public class UserDto {
 
     public void setGender(Character gender) {
         this.gender = gender;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Boolean getPositiveToCovid19() {

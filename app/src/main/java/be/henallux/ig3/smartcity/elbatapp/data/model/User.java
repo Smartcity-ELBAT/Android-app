@@ -12,6 +12,7 @@ public class User {
     private Character gender;
     private Boolean isPositiveToCovid19;
     private Address address;
+    private Integer addressId;
 
     // registration
     public User(String username, String password, String lastName, String firstName,
@@ -25,6 +26,32 @@ public class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
+    }
+
+    // getUserById
+    public User(Integer id, String username, String password, String lastName, String firstName,
+                String birthDate, String email, String phoneNumber, Character gender, Address address) {
+        this(username, password, lastName, firstName, birthDate, gender, email, phoneNumber, address);
+        this.id = id;
+    }
+
+    // updateUser
+    public User(String lastName, String firstName, String birthDate,
+                String phoneNumber, Character gender, Address address) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public Integer getId() {

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_bookings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bookings_to_come" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_cancel_past"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/past_or_canceled_bookings" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+
+<!--    <ProgressBar-->
+<!--        android:id="@+id/bookings_loading_bar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="83dp" />-->
+
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/loading_error_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/loading_error_image"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="100dp"-->
+<!--            android:contentDescription="@string/no_connection_logo_label"-->
+<!--            android:foregroundTint="#FF0000"-->
+<!--            app:srcCompat="@drawable/ic_no_connectivity" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/loading_error_text"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/http_no_connection"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="18sp" />-->
+<!--    </LinearLayout>-->
+
+    <TextView
+        android:id="@+id/error_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_dark"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:drawableLeft="@drawable/ic_error" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bookings_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"/>
+
+</LinearLayout>

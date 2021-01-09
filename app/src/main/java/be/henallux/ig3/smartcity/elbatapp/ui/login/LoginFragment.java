@@ -1,9 +1,13 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.login;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +25,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -29,7 +35,13 @@ import be.henallux.ig3.smartcity.elbatapp.R;
 import be.henallux.ig3.smartcity.elbatapp.data.model.User;
 import be.henallux.ig3.smartcity.elbatapp.ui.MainActivity;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 public class LoginFragment extends Fragment {
+
+    private static final String CHANNEL_ID = "channel_id_notification_covid_19";
+    private final Integer notificationId = 1;
+    private NotificationManagerCompat notificationManager;
 
     private LoginViewModel loginViewModel;
 
@@ -52,6 +64,8 @@ public class LoginFragment extends Fragment {
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
         final LinearLayout errorLayout = view.findViewById(R.id.error_layout);
         final Button registerButton = view.findViewById(R.id.register_button);
+
+        createNotificationChannel();
 
         loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), loginFormState -> {
             if (loginFormState == null) {
@@ -85,8 +99,27 @@ public class LoginFragment extends Fragment {
 
             //Complete and destroy login activity once successful
             updateUiWithUser(loginResult);
-            requireActivity().finish();
 
+            // notification
+            // if client a été en contact, envoyer notif
+
+            notificationManager = NotificationManagerCompat.from(getContext());
+
+            Notification notification = new NotificationCompat.Builder(getContext(), CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_menu_virus)
+                    .setContentTitle(getResources().getString(R.string.notification_title))
+                    .setContentText(getResources().getString(R.string.notification_text))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setCategory(NotificationCompat.CATEGORY_ALARM)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getResources().getString(R.string.notification_text)))
+                    .build();
+
+            notificationManager.notify(notificationId, notification);
+
+
+
+
+            requireActivity().finish();
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
@@ -133,5 +166,19 @@ public class LoginFragment extends Fragment {
         sharedPref.apply();
 
         startActivity(new Intent(requireActivity(), MainActivity.class));
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(getContext(), NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
