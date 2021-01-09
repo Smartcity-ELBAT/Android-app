@@ -1,5 +1,6 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.account;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.ui.login.LoginActivity;
 
 public class UpdatePasswordFragment extends Fragment {
     private AccountViewModel accountViewModel;
@@ -57,9 +59,7 @@ public class UpdatePasswordFragment extends Fragment {
             }
         });
 
-        cancel.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_updatePasswordFragment_to_nav_account);
-        });
+        cancel.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_updatePasswordFragment_to_nav_account));
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -101,9 +101,7 @@ public class UpdatePasswordFragment extends Fragment {
             confirm.setEnabled(inputErrors.isEmpty());
         });
 
-        accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            error.setText(networkError.getErrorMessage());
-        });
+        accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> error.setText(networkError.getErrorMessage()));
 
         accountViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
             if(integer == 400)
@@ -118,7 +116,7 @@ public class UpdatePasswordFragment extends Fragment {
                 error.setText(R.string.error_500);
             else if (integer == 204){
                 Toast.makeText(getActivity(), getResources().getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(requireView()).navigate(R.id.action_updatePasswordFragment_to_loginFragment2);
+                startActivity(new Intent(requireActivity(), LoginActivity.class));
             }
         });
     }

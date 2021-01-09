@@ -59,13 +59,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             if (String.valueOf(item.getTitle()).equals(getString(R.string.menu_map))
                     || String.valueOf(item.getTitle()).equals(getString(R.string.menu_my_account))
-                    || String.valueOf(item.getTitle()).equals(getString(R.string.menu_my_bookings))) {
+                    || String.valueOf(item.getTitle()).equals(getString(R.string.menu_my_bookings))
+                    || String.valueOf(item.getTitle()).equals(getString(R.string.menu_covid_positive))) {
                 NavigationUI.onNavDestinationSelected(item, navController);
                 drawer.close();
-            } else if (String.valueOf(item.getTitle()).equals(getString(R.string.menu_covid_positive))) {
-
-
-                Toast.makeText(this, R.string.thanks_stay_safe, Toast.LENGTH_SHORT).show();
             } else if (String.valueOf(item.getTitle()).equals(getString(R.string.menu_exit))) {
                 SharedPreferences.Editor sharedPref = getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE).edit();
 

@@ -81,6 +81,11 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         establishmentsMapViewModel.getEstablishments().observe(requireActivity(), establishments -> {
             // besoin d'une AsyncTask parce que le geocoding ne se fait pas dans un processus séparé

@@ -59,9 +59,6 @@
         android:label="fragment_update_password"
         tools:layout="@layout/fragment_update_password" >
         <action
-            android:id="@+id/action_updatePasswordFragment_to_loginFragment2"
-            app:destination="@id/loginFragment2" />
-        <action
             android:id="@+id/action_updatePasswordFragment_to_nav_account"
             app:destination="@id/nav_account" />
     </fragment>
@@ -72,18 +69,6 @@
         tools:layout="@layout/fragment_update_user_data" >
         <action
             android:id="@+id/action_updateUserDataFragment_to_nav_account2"
-            app:destination="@id/nav_account" />
-        <action
-            android:id="@+id/action_updateUserDataFragment_to_loginFragment2"
-            app:destination="@id/loginFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/loginFragment2"
-        android:name="be.henallux.ig3.smartcity.elbatapp.ui.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment2_to_nav_account"
             app:destination="@id/nav_account" />
     </fragment>
     <fragment
