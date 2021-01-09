@@ -6,7 +6,7 @@
     <string name="menu_map">Book a table</string>
     <string name="menu_my_account">My account</string>
     <string name="menu_my_bookings">My bookings</string>
-    <string name="menu_covid_positive">I am positive to Covid-19</string>
+    <string name="menu_covid_positive">Covid-19</string>
     <string name="app_name_full" translatable="false">Easy Lunch - Book a Table</string>
     <string name="menu_exit">Log out</string>
     <string name="prompt_username">Username</string>
@@ -53,5 +53,52 @@
     <string name="requests_for_waiter">Requests for the waiter to best manage your experience</string>
     <string name="accept_button">Book this date</string>
     <string name="table_is_outside">The table must be outside</string>
+    <string name="address">Address</string>
+    <string name="update_password">Update password</string>
+    <string name="update_user_data">Update user data</string>
+    <string name="error_400_load_user">Bad request for loading user</string>
+    <string name="error_404_load_user">User not found</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="my_account">My account</string>
+    <string name="old_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="save_update_password">Save</string>
+    <string name="registration">Registration</string>
+    <string name="password_updated">Password updated</string>
+    <string name="error_400_update_password">Bad request for updating password</string>
+    <string name="error_403_forbidden">This action is forbidden !</string>
+    <string name="error_404_update_password">The user is not found to update his password</string>
+    <string name="error_401_unauthorized">Action not authorized</string>
+    <string name="invalid_birth_date">BirthDate is mandatory !</string>
+    <string name="data_updated">User data updated</string>
+    <string name="error_400_update_user_data">Bad request for updating user data</string>
+    <string name="error_404_update_user_data">User or address to update not found</string>
+    <string name="error_400_load_bookings">Bad request for loading bookings</string>
+    <string name="bookings_loaded">Bookings loaded</string>
+    <string name="booking_date">Date</string>
+    <string name="establishment_name">Establishment</string>
+    <string name="nb_person">Number of person</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="date_text_details">Date and time</string>
+    <string name="table_text_details">Table outside</string>
+    <string name="nb_person_text_details">Number of clients</string>
+    <string name="additional_info">Informations for establishment</string>
+    <string name="cancel_booking">Cancel booking</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="error_400_cancel_booking">Bad request for cancelled booking</string>
+    <string name="error_404_cancel_booking">Booking to cancel not found</string>
+    <string name="booking_cancelled">Booking is cancel</string>
+    <string name="error_404_load_bookings">No booking</string>
+    <string name="bookings_to_come">Bookings to come</string>
+    <string name="past_or_canceled_bookings">Past or canceled bookings</string>
+    <string name="no_connection_logo_label">No connection logo</string>
+    <string name="channel_name">Notification ELBAT Covid 19</string>
+    <string name="channel_description">" Notification informing that the client has been in contact with a positive person for covid 19"</string>
+    <string name="notification_title">ELBAT alert</string>
+    <string name="notification_text">" You have been in contact with someone positive for covid 19"</string>
+    <string name="positif_to_covid">" If you have been in contact with someone positive for covid 19 or if you are positive yourself, please click this button. This will allow us to inform customers who visited our establishment at the same time as you."</string>
+    <string name="risk_contact">Alert Covid 19</string>
     <!-- Strings related to login -->
 </resources>
