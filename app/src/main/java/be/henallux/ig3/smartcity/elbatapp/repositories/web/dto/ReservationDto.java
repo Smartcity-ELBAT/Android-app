@@ -28,7 +28,6 @@ public class ReservationDto {
         calendar.setTime(Objects.requireNonNull(format.parse(dateTimeReserved)));
 
         return calendar;
-
     }
 
     public Integer getNbCustomers() {
@@ -42,7 +41,6 @@ public class ReservationDto {
     public Boolean getCancelled() {
         return isCancelled;
     }
-
 
     public Boolean getOutside() {
         return isOutside;

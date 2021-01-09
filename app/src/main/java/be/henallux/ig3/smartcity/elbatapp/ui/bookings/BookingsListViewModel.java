@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +32,9 @@ public class BookingsListViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Reservation>> _bookings = new MutableLiveData<>();
     private LiveData<List<Reservation>> bookings = _bookings;
+
+    private MutableLiveData<List<Reservation>> _canceledBookings = new MutableLiveData<>();
+    private LiveData<List<Reservation>> canceledBookings = _canceledBookings;
 
     private MutableLiveData<Reservation> _bookingChosen = new MutableLiveData<>();
     private LiveData<Reservation> bookingChosen = _bookingChosen;
@@ -65,6 +70,10 @@ public class BookingsListViewModel extends AndroidViewModel {
         return bookings;
     }
 
+    public LiveData<List<Reservation>> getCanceledBookings() {
+        return canceledBookings;
+    }
+
     public LiveData<Reservation> getBookingChosen() {
         return bookingChosen;
     }
@@ -85,9 +94,20 @@ public class BookingsListViewModel extends AndroidViewModel {
         webService.getReservations("Bearer " + token, userId).enqueue(new Callback<List<ReservationDto>>() {
             @Override
             public void onResponse(Call<List<ReservationDto>> call, Response<List<ReservationDto>> response) {
-                if(response.isSuccessful())
-                    _bookings.setValue(reservationMapper.mapToReservation(response.body()));
+                if(response.isSuccessful()){
+                    List<Reservation> bookingsToCome = new ArrayList<>();
+                    List<Reservation> canceledBookings = new ArrayList<>();
+                    GregorianCalendar now = new GregorianCalendar();
 
+                    for (Reservation booking : reservationMapper.mapToReservation(response.body())) {
+                        if(now.compareTo(booking.getDateTimeReserved()) > 0 || booking.getCancelled())
+                            canceledBookings.add(booking);
+                        else
+                            bookingsToCome.add(booking);
+                    }
+                    _bookings.setValue(bookingsToCome);
+                    _canceledBookings.setValue(canceledBookings);
+                }
                 _statutCode.setValue(response.code());
             }
 
@@ -98,7 +118,7 @@ public class BookingsListViewModel extends AndroidViewModel {
         });
     }
 
-    public void cancelBooking(String dateTimeReserved){
+    public void cancelBooking(){
         webService.cancelReservations("Bearer " + token, cancelMapper.mapToCancelDto(userId, bookingChosen.getValue().getDateTimeReserved())).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

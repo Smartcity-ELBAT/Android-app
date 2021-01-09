@@ -6,7 +6,7 @@
     <string name="menu_map">Book a table</string>
     <string name="menu_my_account">My account</string>
     <string name="menu_my_bookings">My bookings</string>
-    <string name="menu_covid_positive">I am positive to Covid-19</string>
+    <string name="menu_covid_positive">Covid-19</string>
     <string name="app_name_full" translatable="false">Easy Lunch - Book a Table</string>
     <string name="menu_exit">Log out</string>
     <string name="prompt_username">Username</string>
@@ -91,5 +91,14 @@
     <string name="error_404_cancel_booking">Booking to cancel not found</string>
     <string name="booking_cancelled">Booking is cancel</string>
     <string name="error_404_load_bookings">No booking</string>
+    <string name="bookings_to_come">Bookings to come</string>
+    <string name="past_or_canceled_bookings">Past or canceled bookings</string>
+    <string name="no_connection_logo_label">No connection logo</string>
+    <string name="channel_name">Notification ELBAT Covid 19</string>
+    <string name="channel_description">" Notification informing that the client has been in contact with a positive person for covid 19"</string>
+    <string name="notification_title">ELBAT alert</string>
+    <string name="notification_text">" You have been in contact with someone positive for covid 19"</string>
+    <string name="positif_to_covid">" If you have been in contact with someone positive for covid 19 or if you are positive yourself, please click this button. This will allow us to inform customers who visited our establishment at the same time as you."</string>
+    <string name="risk_contact">Alert Covid 19</string>
     <!-- Strings related to login -->
 </resources>

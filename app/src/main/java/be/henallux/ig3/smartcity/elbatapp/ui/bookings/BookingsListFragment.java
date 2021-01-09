@@ -1,6 +1,8 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.bookings;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -28,8 +32,7 @@ public class BookingsListFragment extends Fragment {
     private BookingsListViewModel bookingsListViewModel;
     private RecyclerView reservationsRecyclerView;
     private TextView error;
-
-    // TODO je ne sais pas mettre les viewModel dans onActivityCreated sinon ça fait une erreur avec le RecyclerView
+    private TabLayout tabLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,13 +44,60 @@ public class BookingsListFragment extends Fragment {
         error = root.findViewById(R.id.error_list);
         bookingsListViewModel = new ViewModelProvider(requireActivity()).get(BookingsListViewModel.class);
 
+        SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        int position = sharedPreferences.getInt("tabPosition", 0);
+
         bookingsListViewModel.loadBookings();
 
+        // pour init par défaut le premier tab item
         BookingAdapter adapter = new BookingAdapter();
-        bookingsListViewModel.getBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
+
+        switch (position){
+            case 1 :
+                bookingsListViewModel.getCanceledBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
+                break;
+            default :
+                bookingsListViewModel.getBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
+                break;
+        }
 
         reservationsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         reservationsRecyclerView.setAdapter(adapter);
+
+        tabLayout = root.findViewById(R.id.tab_layout);
+        tabLayout.getTabAt(position).select();
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int currentPosition = tab.getPosition();
+                editor.putInt("tabPosition", currentPosition);
+                editor.commit();
+
+                switch (currentPosition){
+                    case 1 :
+                        bookingsListViewModel.getCanceledBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
+                        break;
+                    default :
+                        bookingsListViewModel.getBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
+                        break;
+                }
+
+                reservationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                reservationsRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // ignore
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // ignore
+            }
+        });
 
         bookingsListViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
             error.setText(networkError.getErrorMessage());
@@ -69,11 +119,12 @@ public class BookingsListFragment extends Fragment {
 
     // ViewHolder that describes a single element
     private class BookingViewHolder extends RecyclerView.ViewHolder {
-        public TextView dateTime, establishment, person;
+        public TextView date, time, establishment, person;
 
         public BookingViewHolder(@NonNull View itemView, OnItemSelectedListener listener){
             super(itemView);
-            dateTime = itemView.findViewById(R.id.booking_date_time);
+            date = itemView.findViewById(R.id.booking_date);
+            time = itemView.findViewById(R.id.booking_time);
             establishment = itemView.findViewById(R.id.booking_establishment);
             person = itemView.findViewById(R.id.booking_nb_person);
 
@@ -105,20 +156,20 @@ public class BookingsListFragment extends Fragment {
         @SuppressLint({"SetTextI18n", "ResourceAsColor"})
         @Override
         public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
+
             Reservation reservation = reservations.get(position);
             GregorianCalendar date = reservation.getDateTimeReserved();
-            holder.dateTime.setText(
-                            date.get(Calendar.DAY_OF_MONTH) + "/" +
-                            (date.get(Calendar.MONTH) + 1) + "/" +
-                            date.get(Calendar.YEAR) + " " +
-                            date.get(Calendar.HOUR_OF_DAY) + "h" +
-                            date.get(Calendar.MINUTE)
+            holder.date.setText(
+                    date.get(Calendar.DAY_OF_MONTH) + "/" +
+                    (date.get(Calendar.MONTH) + 1) + "/" +
+                    date.get(Calendar.YEAR)
+            );
+            holder.time.setText(
+                    date.get(Calendar.HOUR_OF_DAY) + "h" +
+                    date.get(Calendar.MINUTE)
             );
             holder.establishment.setText(reservation.getEstablishmentName());
             holder.person.setText(reservation.getNbCustomers().toString());
-
-            if(reservation.getCancelled() != null && reservation.getCancelled())
-                holder.itemView.setBackgroundColor(R.color.cancel);
         }
 
         @Override

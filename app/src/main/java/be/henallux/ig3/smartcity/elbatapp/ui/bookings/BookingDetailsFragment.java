@@ -43,7 +43,7 @@ public class BookingDetailsFragment extends Fragment {
         cancelBooking = root.findViewById(R.id.cancel_booking);
 
         cancelBooking.setOnClickListener(v -> {
-            bookingsListViewModel.cancelBooking(date.getText().toString());
+            bookingsListViewModel.cancelBooking();
         });
 
         return root;
@@ -77,8 +77,8 @@ public class BookingDetailsFragment extends Fragment {
             info.setText(reservation.getAdditionalInfo());
             info.setEnabled(false);
 
-            if(reservation.getCancelled() != null)
-                cancelBooking.setEnabled(!reservation.getCancelled());
+            GregorianCalendar now = new GregorianCalendar();
+            cancelBooking.setEnabled(!reservation.getCancelled() && now.compareTo(reservation.getDateTimeReserved()) < 0);
         });
 
         bookingsListViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
