@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,7 @@ public class LoginFragment extends Fragment {
     private static final String CHANNEL_ID = "channel_id_notification_covid_19";
     private final Integer notificationId = 1;
     private NotificationManagerCompat notificationManager;
+    private TextView error;
 
     private LoginViewModel loginViewModel;
 
@@ -60,6 +62,9 @@ public class LoginFragment extends Fragment {
         final Button loginButton = view.findViewById(R.id.login_button);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
         final Button registerButton = view.findViewById(R.id.register_button);
+        error = view.findViewById(R.id.error_login);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
 
         createNotificationChannel();
 
@@ -84,29 +89,48 @@ public class LoginFragment extends Fragment {
             loadingProgressBar.setVisibility(View.GONE);
             requireActivity().setResult(Activity.RESULT_OK);
 
+            loginViewModel.checkReservationsContactCovid();
+
             //Complete and destroy login activity once successful
             updateUiWithUser(loginResult);
-
-            // notification
-            // if client a été en contact, envoyer notif
-
-            notificationManager = NotificationManagerCompat.from(getContext());
-
-            Notification notification = new NotificationCompat.Builder(getContext(), CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_menu_virus)
-                    .setContentTitle(getResources().getString(R.string.notification_title))
-                    .setContentText(getResources().getString(R.string.notification_text))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setCategory(NotificationCompat.CATEGORY_ALARM)
-                    .setStyle(new NotificationCompat.BigTextStyle().bigText(getResources().getString(R.string.notification_text)))
-                    .build();
-
-            notificationManager.notify(notificationId, notification);
-
-
-
-
             requireActivity().finish();
+        });
+
+        loginViewModel.getContactWithPersonAtRisk().observe(getViewLifecycleOwner(), positiveToCovid -> {
+            if(positiveToCovid.getPositifToCovid()){
+                notificationManager = NotificationManagerCompat.from(getContext());
+
+                Notification notification = new NotificationCompat.Builder(getContext(), CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_menu_virus)
+                        .setContentTitle(getResources().getString(R.string.notification_title))
+                        .setContentText(getResources().getString(R.string.notification_text))
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setCategory(NotificationCompat.CATEGORY_ALARM)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(getResources().getString(R.string.notification_text)))
+                        .build();
+
+                notificationManager.notify(notificationId, notification);
+            }
+        });
+
+        loginViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
+        });
+
+        loginViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            error.setVisibility(View.VISIBLE);
+
+            if(integer == 400)
+                error.setText(R.string.error_400_check_covid);
+            else if(integer == 401)
+                error.setText(R.string.error_401_unauthorized);
+            else if(integer == 404)
+                error.setText(R.string.error_404_check_covid);
+            else if(integer == 500)
+                error.setText(R.string.error_500);
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {

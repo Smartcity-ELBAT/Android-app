@@ -42,6 +42,8 @@ public class BookingsListFragment extends Fragment {
 
         reservationsRecyclerView = root.findViewById(R.id.bookings_list);
         error = root.findViewById(R.id.error_list);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
         bookingsListViewModel = new ViewModelProvider(requireActivity()).get(BookingsListViewModel.class);
 
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -53,13 +55,10 @@ public class BookingsListFragment extends Fragment {
         // pour init par défaut le premier tab item
         BookingAdapter adapter = new BookingAdapter();
 
-        switch (position){
-            case 1 :
-                bookingsListViewModel.getCanceledBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
-                break;
-            default :
-                bookingsListViewModel.getBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
-                break;
+        if (position == 1) {
+            bookingsListViewModel.getCanceledBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
+        } else {
+            bookingsListViewModel.getBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
         }
 
         reservationsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
@@ -73,15 +72,12 @@ public class BookingsListFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 int currentPosition = tab.getPosition();
                 editor.putInt("tabPosition", currentPosition);
-                editor.commit();
+                editor.apply();
 
-                switch (currentPosition){
-                    case 1 :
-                        bookingsListViewModel.getCanceledBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
-                        break;
-                    default :
-                        bookingsListViewModel.getBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
-                        break;
+                if (currentPosition == 1) {
+                    bookingsListViewModel.getCanceledBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
+                } else {
+                    bookingsListViewModel.getBookings().observe(getViewLifecycleOwner(), adapter::setReservations);
                 }
 
                 reservationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -100,10 +96,15 @@ public class BookingsListFragment extends Fragment {
         });
 
         bookingsListViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            error.setText(networkError.getErrorMessage());
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
         });
 
         bookingsListViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            error.setVisibility(View.VISIBLE);
+
             if(integer == 400)
                 error.setText(R.string.error_400_load_bookings);
             else if(integer == 401)
@@ -169,7 +170,7 @@ public class BookingsListFragment extends Fragment {
                     date.get(Calendar.MINUTE)
             );
             holder.establishment.setText(reservation.getEstablishmentName());
-            holder.person.setText(reservation.getNbCustomers().toString());
+            holder.person.setText(reservation.getNbCustomers().toString() + " " + getResources().getString(R.string.person));
         }
 
         @Override

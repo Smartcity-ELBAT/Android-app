@@ -97,4 +97,13 @@
     <string name="notification_title">ELBAT alerte</string>
     <string name="notification_text">Vous avez été en contact avec une personne positive au covid 19</string>
     <string name="risk_contact">Alerte Covid 19</string>
+    <string name="positif_to_covid_change">Nous avons enregistrer que vous êtes une personne à risque et allons envoyer une notification aux personnes que vous avez rencontré au sein de notre établissement. Merci et bonne journée.</string>
+    <string name="covid_positive">"Nous avons "</string>
+    <string name="error_404_update_covid">Utilisateur non trouvé pour mettre à jour son statut covid</string>
+    <string name="covid_title">Covid</string>
+    <string name="error_400_covid">Mauvaise requête pour la mise à jour du statut covid</string>
+    <string name="error_400_check_covid">Mauvaise requête pour la vérification des personnes à risque</string>
+    <string name="error_404_check_covid">Utilisateur non trouvé pour la vérification des constacts à risque</string>
+    <string name="go_back_home">Retourner sur la page d\'accueil</string>
+    <string name="person">pers</string>
 </resources>

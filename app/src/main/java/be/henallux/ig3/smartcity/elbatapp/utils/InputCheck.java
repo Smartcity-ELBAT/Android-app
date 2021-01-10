@@ -5,6 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InputCheck {
+
+    public static Boolean isUserNameValid(String username) {
+        return username != null && !username.trim().isEmpty();
+    }
+
     public static Boolean isPasswordValid(String password){
         return password != null && password.trim().length() > 5;
     }

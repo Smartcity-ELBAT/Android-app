@@ -39,6 +39,8 @@ public class UpdatePasswordFragment extends Fragment {
         cancel = root.findViewById(R.id.cancel_update_password_button);
         confirm = root.findViewById(R.id.confirm_update_password_button);
         error = root.findViewById(R.id.error_update_password);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
 
         if(savedInstanceState != null){
             currentPassword.setText(savedInstanceState.getString("currentPassword"));
@@ -57,9 +59,7 @@ public class UpdatePasswordFragment extends Fragment {
             }
         });
 
-        cancel.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_updatePasswordFragment_to_nav_account);
-        });
+        cancel.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_updatePasswordFragment_to_nav_account));
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -102,10 +102,16 @@ public class UpdatePasswordFragment extends Fragment {
         });
 
         accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            error.setText(networkError.getErrorMessage());
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
         });
 
         accountViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            if(integer != 204)
+                error.setVisibility(View.VISIBLE);
+
             if(integer == 400)
                 error.setText(R.string.error_400_update_password);
             else if(integer == 401)
