@@ -2,6 +2,7 @@ package be.henallux.ig3.smartcity.elbatapp.ui.account;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,6 +25,7 @@ import androidx.navigation.Navigation;
 import java.util.Calendar;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.ui.login.LoginActivity;
 
 public class UpdateUserDataFragment extends Fragment {
     private AccountViewModel accountViewModel;
@@ -204,7 +206,8 @@ public class UpdateUserDataFragment extends Fragment {
                 error.setText(R.string.error_500);
             else if (integer == 204){
                 Toast.makeText(getActivity(), getResources().getString(R.string.data_updated), Toast.LENGTH_SHORT).show();
-                Navigation.findNavController(requireView()).navigate(R.id.action_updateUserDataFragment_to_loginFragment2);
+                startActivity(new Intent(requireActivity(), LoginActivity.class));
+                requireActivity().finish();
             }
         });
     }

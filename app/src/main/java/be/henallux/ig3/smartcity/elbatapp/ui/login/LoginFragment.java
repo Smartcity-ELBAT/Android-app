@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,7 +61,7 @@ public class LoginFragment extends Fragment {
         final EditText passwordEditText = view.findViewById(R.id.password);
         final Button loginButton = view.findViewById(R.id.login_button);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
-        final LinearLayout errorLayout = view.findViewById(R.id.error_layout);
+//        final LinearLayout errorLayout = view.findViewById(R.id.error_layout);
         final Button registerButton = view.findViewById(R.id.register_button);
         error = view.findViewById(R.id.error_login);
         error.setVisibility(View.INVISIBLE);
@@ -87,13 +85,13 @@ public class LoginFragment extends Fragment {
         loginViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             if (error != null) {
                 loadingProgressBar.setVisibility(View.GONE);
-                errorLayout.setVisibility(View.VISIBLE);
+//                errorLayout.setVisibility(View.VISIBLE);
 
-                final ImageView errorDrawable = view.findViewById(R.id.error_image_view);
-                final TextView errorTextView = view.findViewById(R.id.error_label);
-
-                errorDrawable.setImageResource(error.getErrorDrawable());
-                errorTextView.setText(error.getErrorMessage());
+//                final ImageView errorDrawable = view.findViewById(R.id.error_image_view);
+//                final TextView errorTextView = view.findViewById(R.id.error_label);
+//
+//                errorDrawable.setImageResource(error.getErrorDrawable());
+//                errorTextView.setText(error.getErrorMessage());
             }
         });
 
@@ -172,7 +170,7 @@ public class LoginFragment extends Fragment {
 
         loginButton.setOnClickListener(v -> {
             loadingProgressBar.setVisibility(View.VISIBLE);
-            errorLayout.setVisibility(View.GONE);
+//            errorLayout.setVisibility(View.GONE);
             loginViewModel.login(usernameEditText.getText().toString(),
                     passwordEditText.getText().toString());
         });
