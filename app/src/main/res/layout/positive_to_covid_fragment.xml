@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.positifToCovid19.PositiveToCovidFragment">
+    tools:context=".ui.positiveToCovid19.PositiveToCovidFragment">
 
     <TextView
         android:id="@+id/error_covid"
@@ -38,7 +38,7 @@
             android:layout_marginBottom="100dp"
             android:text="@string/positif_to_covid"
             android:textAlignment="center"
-            android:textSize="25dp" />
+            android:textSize="25sp" />
 
         <Button
             android:id="@+id/button_positif_covid"

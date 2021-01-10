@@ -55,7 +55,6 @@
     <string name="bad_credentials">Impossible de vous connecter.\nVérifiez vos identifiants.</string>
     <string name="bookings_to_come">Réservations à venir</string>
     <string name="past_or_canceled_bookings">Réservations passées ou annulées</string>
-    <string name="thanks_stay_safe">Merci de nous en faire part ! Soignez-vous bien !</string>
     <string name="birthDate_age">Vous devez avoir au moins 18 ans !</string>
     <string name="address">Adresse</string>
     <string name="update_password">Mettre à jour le mot de passe</string>
@@ -107,5 +106,8 @@
     <string name="error_400_check_covid">Mauvaise requête pour la vérification des personnes à risque</string>
     <string name="error_404_check_covid">Utilisateur non trouvé pour la vérification des constacts à risque</string>
     <string name="go_back_home">Retourner sur la page d\'accueil</string>
-    <string name="person">pers</string>
+    <string name="no_bookings">Vous n\'avez pas de réservation pour cette section</string>
+    <string name="no_table_available">Il n\'y a pas de table de libre pour cette configuration.</string>
+    <string name="must_fill_all">Vous devez remplir tous les champs requis pour continuer</string>
+    <string name="booking_created">Réservation ajoutée</string>
 </resources>

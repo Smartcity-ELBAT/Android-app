@@ -121,7 +121,6 @@ public class RegistrationViewModel extends AndroidViewModel {
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 _statutCode.setValue(response.code());
                 _error.setValue(null);
-
             }
 
             @Override

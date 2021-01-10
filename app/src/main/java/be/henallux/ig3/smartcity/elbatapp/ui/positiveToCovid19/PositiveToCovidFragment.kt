@@ -1,4 +1,4 @@
-package be.henallux.ig3.smartcity.elbatapp.ui.positifToCovid19
+package be.henallux.ig3.smartcity.elbatapp.ui.positiveToCovid19
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +22,7 @@ class PositiveToCovidFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.positif_to_covid_fragment, container, false)
+        val root = inflater.inflate(R.layout.positive_to_covid_fragment, container, false)
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = resources.getString(R.string.covid_title)
 
@@ -54,20 +54,18 @@ class PositiveToCovidFragment : Fragment() {
             if (integer != 204)
                 error.visibility = View.VISIBLE
 
-            if (integer == 400)
-                error.setText(R.string.error_400_covid)
-            else if (integer == 401)
-                error.setText(R.string.error_401_unauthorized)
-            else if (integer == 404)
-                error.setText(R.string.error_404_update_covid)
-            else if (integer == 500)
-                error.setText(R.string.error_500)
-            else if (integer == 204) {
-                text.setText(R.string.positif_to_covid_change)
-                button.setText(R.string.go_back_home)
-                button.setOnClickListener {
-                    view?.let { it1 ->
-                        Navigation.findNavController(it1).navigate(R.id.action_nav_corona_to_nav_booking)
+            when (integer) {
+                400 -> error.setText(R.string.error_400_covid)
+                401 -> error.setText(R.string.error_401_unauthorized)
+                404 -> error.setText(R.string.error_404_update_covid)
+                500 -> error.setText(R.string.error_500)
+                204 -> {
+                    text.setText(R.string.positif_to_covid_change)
+                    button.setText(R.string.go_back_home)
+                    button.setOnClickListener {
+                        view?.let { it1 ->
+                            Navigation.findNavController(it1).navigate(R.id.action_nav_corona_to_nav_booking)
+                        }
                     }
                 }
             }

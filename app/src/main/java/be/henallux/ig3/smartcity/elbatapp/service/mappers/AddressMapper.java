@@ -1,7 +1,6 @@
 package be.henallux.ig3.smartcity.elbatapp.service.mappers;
 
 import be.henallux.ig3.smartcity.elbatapp.data.model.Address;
-import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.AddressDto;
 
 public class AddressMapper {
     private static AddressMapper instance;

@@ -9,7 +9,9 @@ public class Reservation {
     private String additionalInfo;
     private Boolean isCancelled;
     private Boolean isOutside;
+    private Integer establishmentId;
     private String establishmentName;
+    private Integer tableId;
 
     public Reservation(Integer personId, GregorianCalendar dateTimeReserved,
                        Integer nbCustomers, String additionalInfo, Boolean isCancelled,
@@ -23,6 +25,8 @@ public class Reservation {
         this.establishmentName = establishmentName;
     }
 
+    public Reservation() {}
+
     public Integer getPersonId() {
         return personId;
     }
@@ -30,7 +34,6 @@ public class Reservation {
     public GregorianCalendar getDateTimeReserved() {
         return dateTimeReserved;
     }
-
 
     public Integer getNbCustomers() {
         return nbCustomers;
@@ -53,4 +56,47 @@ public class Reservation {
         return establishmentName;
     }
 
+    public void setPersonId(Integer personId) {
+        this.personId = personId;
+    }
+
+    public void setDateTimeReserved(GregorianCalendar dateTimeReserved) {
+        this.dateTimeReserved = dateTimeReserved;
+    }
+
+    public void setNbCustomers(Integer nbCustomers) {
+        this.nbCustomers = nbCustomers;
+    }
+
+    public void setAdditionalInfo(String additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+
+    public void setCancelled(Boolean cancelled) {
+        isCancelled = cancelled;
+    }
+
+    public void setOutside(Boolean outside) {
+        isOutside = outside;
+    }
+
+    public void setEstablishmentName(String establishmentName) {
+        this.establishmentName = establishmentName;
+    }
+
+    public Integer getEstablishmentId() {
+        return establishmentId;
+    }
+
+    public void setEstablishmentId(Integer establishmentId) {
+        this.establishmentId = establishmentId;
+    }
+
+    public Integer getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(Integer tableId) {
+        this.tableId = tableId;
+    }
 }

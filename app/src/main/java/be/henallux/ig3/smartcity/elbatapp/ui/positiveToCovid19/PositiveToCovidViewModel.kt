@@ -1,4 +1,4 @@
-package be.henallux.ig3.smartcity.elbatapp.ui.positifToCovid19
+package be.henallux.ig3.smartcity.elbatapp.ui.positiveToCovid19
 
 import android.app.Application
 import android.content.Context

@@ -58,7 +58,6 @@
     <string name="update_user_data">Update user data</string>
     <string name="error_400_load_user">Bad request for loading user</string>
     <string name="error_404_load_user">User not found</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="my_account">My account</string>
     <string name="old_password">Current password</string>
     <string name="new_password">New password</string>
@@ -79,7 +78,6 @@
     <string name="booking_date">Date</string>
     <string name="establishment_name">Establishment</string>
     <string name="nb_person">Number of persons</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="date_text_details">Date and time</string>
     <string name="table_text_details">Table outside</string>
     <string name="nb_person_text_details">Number of clients</string>
@@ -108,6 +106,11 @@
     <string name="go_back_home">Return to home page</string>
     <string name="error_400_check_covid">Bad request for checking risk contact</string>
     <string name="error_404_check_covid">User not found for checking risk contact</string>
-    <string name="person">pers</string>
+    <string name="places" translatable="false">%dp.</string>
+    <string name="no_bookings">You don\'t have any booking for this section</string>
+    <string name="no_table_available">There is no table available for this configuration</string>
+    <string name="must_fill_all">You must fill all required values before booking</string>
+    <string name="booking_created">Booking created</string>
+    <string name="bad_credentials">Unable to login. Please check your credentials</string>
     <!-- Strings related to login -->
 </resources>

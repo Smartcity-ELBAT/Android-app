@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import be.henallux.ig3.smartcity.elbatapp.data.model.Address;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.EstablishmentDto;
 

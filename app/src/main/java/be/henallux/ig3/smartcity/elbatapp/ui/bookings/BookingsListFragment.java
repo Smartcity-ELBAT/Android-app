@@ -1,17 +1,17 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.bookings;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -20,30 +20,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
+import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Reservation;
 
 public class BookingsListFragment extends Fragment {
 
     private BookingsListViewModel bookingsListViewModel;
     private RecyclerView reservationsRecyclerView;
-    private TextView error;
+    private LinearLayout errorLayout;
+    private TextView noBookingsView;
     private TabLayout tabLayout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_bookings_list, container, false);
 
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(getResources().getString(R.string.menu_my_bookings));
-
         reservationsRecyclerView = root.findViewById(R.id.bookings_list);
-        error = root.findViewById(R.id.error_list);
-        error.setVisibility(View.INVISIBLE);
-        error.setText(null);
+        errorLayout = root.findViewById(R.id.loading_error_view);
+        noBookingsView = root.findViewById(R.id.no_bookings_view);
         bookingsListViewModel = new ViewModelProvider(requireActivity()).get(BookingsListViewModel.class);
 
         SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -96,23 +94,31 @@ public class BookingsListFragment extends Fragment {
         });
 
         bookingsListViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            if(networkError != null){
-                error.setVisibility(View.VISIBLE);
-                error.setText(networkError.getErrorMessage());
+            if (networkError != null) {
+                final TextView errorTextView = root.findViewById(R.id.loading_error_text);
+                final ImageView errorDrawable = root.findViewById(R.id.loading_error_image);
+
+                errorDrawable.setImageResource(networkError == NetworkError.NO_CONNECTION ? R.drawable.ic_no_connectivity : R.drawable.ic_error);
+                errorTextView.setText(networkError.getErrorMessage());
+
+                errorLayout.setVisibility(View.VISIBLE);
             }
         });
 
-        bookingsListViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
-            error.setVisibility(View.VISIBLE);
+        bookingsListViewModel.getStatutCode().observe(getViewLifecycleOwner(), statusCode -> {
+            final TextView errorTextView = root.findViewById(R.id.loading_error_text);
+            final ImageView errorDrawable = root.findViewById(R.id.loading_error_image);
 
-            if(integer == 400)
-                error.setText(R.string.error_400_load_bookings);
-            else if(integer == 401)
-                error.setText(R.string.error_401_unauthorized);
-            else if(integer == 404)
-                error.setText(R.string.error_404_load_bookings);
-            else if(integer == 500)
-                error.setText(R.string.error_500);
+            errorDrawable.setImageResource(R.drawable.ic_error);
+
+            if(statusCode == 400)
+                errorTextView.setText(R.string.error_400_load_bookings);
+            else if(statusCode == 401)
+                errorTextView.setText(R.string.error_401_unauthorized);
+            else if(statusCode == 404)
+                errorTextView.setText(R.string.error_404_load_bookings);
+            else if(statusCode == 500)
+                errorTextView.setText(R.string.error_500);
         });
 
         return root;
@@ -154,23 +160,16 @@ public class BookingsListFragment extends Fragment {
             return viewHolder;
         }
 
-        @SuppressLint({"SetTextI18n", "ResourceAsColor"})
         @Override
         public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
 
             Reservation reservation = reservations.get(position);
             GregorianCalendar date = reservation.getDateTimeReserved();
-            holder.date.setText(
-                    date.get(Calendar.DAY_OF_MONTH) + "/" +
-                    (date.get(Calendar.MONTH) + 1) + "/" +
-                    date.get(Calendar.YEAR)
-            );
-            holder.time.setText(
-                    date.get(Calendar.HOUR_OF_DAY) + "h" +
-                    date.get(Calendar.MINUTE)
-            );
+
+            holder.date.setText(DateFormat.format("dd/MM/yyyy", date));
+            holder.time.setText(DateFormat.format("HH:mm", date));
             holder.establishment.setText(reservation.getEstablishmentName());
-            holder.person.setText(reservation.getNbCustomers().toString() + " " + getResources().getString(R.string.person));
+            holder.person.setText(getString(R.string.places, reservation.getNbCustomers()));
         }
 
         @Override
@@ -179,6 +178,8 @@ public class BookingsListFragment extends Fragment {
         }
 
         public void setReservations(List<Reservation> reservations){
+            noBookingsView.setVisibility(reservations.isEmpty() ? View.VISIBLE : View.GONE);
+
             this.reservations = reservations;
             notifyDataSetChanged();
         }
