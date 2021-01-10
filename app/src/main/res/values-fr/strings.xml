@@ -55,7 +55,6 @@
     <string name="bad_credentials">Impossible de vous connecter.\nVérifiez vos identifiants.</string>
     <string name="bookings_to_come">Réservations à venir</string>
     <string name="past_or_canceled_bookings">Réservations passées ou annulées</string>
-    <string name="thanks_stay_safe">Merci de nous en faire part ! Soignez-vous bien !</string>
     <string name="birthDate_age">Vous devez avoir au moins 18 ans !</string>
     <string name="address">Adresse</string>
     <string name="update_password">Mettre à jour le mot de passe</string>

@@ -103,7 +103,7 @@ public class BookingsListViewModel extends AndroidViewModel {
                     List<Reservation> canceledBookings = new ArrayList<>();
                     GregorianCalendar now = new GregorianCalendar();
 
-                    for (Reservation booking : reservationMapper.mapToReservation(response.body())) {
+                    for (Reservation booking : reservationMapper.mapToReservations(response.body())) {
                         if(now.compareTo(booking.getDateTimeReserved()) > 0 || booking.getCancelled())
                             canceledBookings.add(booking);
                         else

@@ -14,8 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment;
+import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Reservation;
 import be.henallux.ig3.smartcity.elbatapp.data.model.Table;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.ELBATWebService;

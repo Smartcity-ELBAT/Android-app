@@ -111,5 +111,6 @@
     <string name="no_table_available">There is no table available for this configuration</string>
     <string name="must_fill_all">You must fill all required values before booking</string>
     <string name="booking_created">Booking created</string>
+    <string name="bad_credentials">Unable to login. Please check your credentials</string>
     <!-- Strings related to login -->
 </resources>
