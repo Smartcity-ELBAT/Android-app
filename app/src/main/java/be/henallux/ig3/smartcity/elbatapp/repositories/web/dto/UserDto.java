@@ -1,17 +1,37 @@
 package be.henallux.ig3.smartcity.elbatapp.repositories.web.dto;
 
-import java.util.Date;
-
 public class UserDto {
     private Integer id;
     private String username;
     private String password;
     private String lastName;
     private String firstName;
-    private Date birthDate;
+    private String birthDate;
     private Character gender;
+    private String phoneNumber;
+    private String email;
     private Boolean isPositiveToCovid19;
     private AddressDto address;
+
+    public UserDto(String username, String password, String lastName, String firstName, String birthDate,
+                   Character gender, String phoneNumber, String email, AddressDto address) {
+        this.username = username;
+        this.password = password;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+    }
+
+
+    public UserDto(Integer id, String username, String password, String lastName, String firstName, String birthDate,
+                   Character gender, String phoneNumber, String email, AddressDto address) {
+        this(username, password, lastName, firstName, birthDate, gender, phoneNumber, email, address);
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;
@@ -53,11 +73,14 @@ public class UserDto {
         this.firstName = firstName;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public String getBirthDate() {
+        String [] splitBirthDateHours = birthDate.split("T");
+        String [] splitBirthDate = splitBirthDateHours[0].split("-");
+
+        return splitBirthDate[2] + "/" + splitBirthDate[1] + "/" + splitBirthDate[0];
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String  birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -67,6 +90,22 @@ public class UserDto {
 
     public void setGender(Character gender) {
         this.gender = gender;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Boolean getPositiveToCovid19() {

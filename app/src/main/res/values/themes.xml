@@ -22,4 +22,15 @@
     <style name="Theme.ElbatApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ElbatApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DateTimePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/primaryColor</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/DateTimePickerButtonStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DateTimePickerButtonStyle</item>
+    </style>
+
+    <style name="DateTimePickerButtonStyle" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="android:backgroundTint">@color/primaryColor</item>
+    </style>
 </resources>

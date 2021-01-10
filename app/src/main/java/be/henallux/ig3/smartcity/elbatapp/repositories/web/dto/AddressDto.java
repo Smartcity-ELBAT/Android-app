@@ -7,7 +7,20 @@ public class AddressDto {
     private String number;
     private String country;
     private String city;
-    private Integer postalCode;
+    private String postalCode;
+
+    public AddressDto(String street, String number, String country, String city, String postalCode) {
+        this.street = street;
+        this.number = number;
+        this.country = country;
+        this.city = city;
+        this.postalCode = postalCode;
+    }
+
+    public AddressDto(Integer id, String street, String number, String country, String city, String postalCode) {
+        this(street, number, postalCode, city, country);
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;
@@ -49,11 +62,11 @@ public class AddressDto {
         this.city = city;
     }
 
-    public Integer getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(Integer postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 }
