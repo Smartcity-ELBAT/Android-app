@@ -41,6 +41,8 @@ public class AccountFragment extends Fragment {
         updatePasswordButton = root.findViewById(R.id.update_password_button);
         updateUserDataButton = root.findViewById(R.id.update_user_data_button);
         error = root.findViewById(R.id.error_account);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
 
         name.setEnabled(false);
         email.setEnabled(false);
@@ -49,13 +51,9 @@ public class AccountFragment extends Fragment {
         phone.setEnabled(false);
         address.setEnabled(false);
 
-        updatePasswordButton.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_nav_account_to_updatePasswordFragment);
-        });
+        updatePasswordButton.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_account_to_updatePasswordFragment));
 
-        updateUserDataButton.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_nav_account_to_updateUserDataFragment);
-        });
+        updateUserDataButton.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_account_to_updateUserDataFragment));
 
         return root;
     }
@@ -70,10 +68,15 @@ public class AccountFragment extends Fragment {
         accountViewModel.loadUser();
 
         accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            error.setText(networkError.getErrorMessage());
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
         });
 
         accountViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            error.setVisibility(View.VISIBLE);
+
             if(integer == 400)
                 error.setText(R.string.error_400_load_user);
             else if (integer == 404)

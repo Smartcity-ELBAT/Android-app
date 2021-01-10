@@ -59,6 +59,8 @@ public class UpdateUserDataFragment extends Fragment {
         cancel = root.findViewById(R.id.cancel_update_button);
         confirm = root.findViewById(R.id.confirm_update_button);
         error = root.findViewById(R.id.error_update);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
         gender = root.findViewById(R.id.gender_group_update);
         woman = root.findViewById(R.id.woman_button_update);
         man = root.findViewById(R.id.man_button_update);
@@ -181,9 +183,17 @@ public class UpdateUserDataFragment extends Fragment {
             confirm.setEnabled(inputErrors.isEmpty());
         });
 
-        accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> error.setText(networkError.getErrorMessage()));
+        accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
+        });
 
         accountViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            if(integer != 204)
+                error.setVisibility(View.VISIBLE);
+
             if(integer == 400)
                 error.setText(R.string.error_400_update_user_data);
             else if(integer == 401)
@@ -197,6 +207,7 @@ public class UpdateUserDataFragment extends Fragment {
             else if (integer == 204){
                 Toast.makeText(getActivity(), getResources().getString(R.string.data_updated), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(requireActivity(), LoginActivity.class));
+                requireActivity().finish();
             }
         });
     }

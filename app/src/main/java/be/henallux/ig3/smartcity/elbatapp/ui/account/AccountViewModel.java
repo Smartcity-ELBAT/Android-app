@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -62,6 +64,8 @@ public class AccountViewModel extends AndroidViewModel {
         JWT jwt = new JWT(token);
         Claim userData = jwt.getClaim("userData");
         userFromToken = Objects.requireNonNull(userData.asObject(User.class));
+
+        _error.setValue(null);
     }
 
     public LiveData<User> getUser() {
@@ -85,15 +89,17 @@ public class AccountViewModel extends AndroidViewModel {
 
         webService.getUserById("Bearer " + token, userId).enqueue(new Callback<UserDto>() {
             @Override
-            public void onResponse(Call<UserDto> call, Response<UserDto> response) {
-                if (response.isSuccessful())
+            public void onResponse(@NotNull Call<UserDto> call, @NotNull Response<UserDto> response) {
+                if (response.isSuccessful()){
                     _user.setValue(userMapper.mapToUser(response.body()));
+                    _error.setValue(null);
+                }
                 else
                     _statutCode.setValue(response.code());
             }
 
             @Override
-            public void onFailure(Call<UserDto> call, Throwable t) {
+            public void onFailure(@NotNull Call<UserDto> call, @NotNull Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
@@ -105,12 +111,12 @@ public class AccountViewModel extends AndroidViewModel {
 
         webService.updatePassword("Bearer " + token, passwordMapper.mapToPasswordDto(password)).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 _statutCode.setValue(response.code());
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
@@ -125,12 +131,12 @@ public class AccountViewModel extends AndroidViewModel {
 
         webService.updateUser("Bearer " + token, userMapper.mapToUserDto(user)).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 _statutCode.setValue(response.code());
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });

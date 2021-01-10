@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -64,6 +66,8 @@ public class BookingsListViewModel extends AndroidViewModel {
         JWT jwt = new JWT(token);
         Claim userData = jwt.getClaim("userData");
         userId = Objects.requireNonNull(userData.asObject(User.class)).getId();
+
+        _error.setValue(null);
     }
 
     public LiveData<List<Reservation>> getBookings() {
@@ -93,7 +97,7 @@ public class BookingsListViewModel extends AndroidViewModel {
     public void loadBookings(){
         webService.getReservations("Bearer " + token, userId).enqueue(new Callback<List<ReservationDto>>() {
             @Override
-            public void onResponse(Call<List<ReservationDto>> call, Response<List<ReservationDto>> response) {
+            public void onResponse(@NotNull Call<List<ReservationDto>> call, @NotNull Response<List<ReservationDto>> response) {
                 if(response.isSuccessful()){
                     List<Reservation> bookingsToCome = new ArrayList<>();
                     List<Reservation> canceledBookings = new ArrayList<>();
@@ -109,10 +113,11 @@ public class BookingsListViewModel extends AndroidViewModel {
                     _canceledBookings.setValue(canceledBookings);
                 }
                 _statutCode.setValue(response.code());
+                _error.setValue(null);
             }
 
             @Override
-            public void onFailure(Call<List<ReservationDto>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<ReservationDto>> call, @NotNull Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
@@ -121,19 +126,16 @@ public class BookingsListViewModel extends AndroidViewModel {
     public void cancelBooking(){
         webService.cancelReservations("Bearer " + token, cancelMapper.mapToCancelDto(userId, bookingChosen.getValue().getDateTimeReserved())).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 _statutCode.setValue(response.code());
+                _error.setValue(null);
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
 
     }
-
-
-
-
 }

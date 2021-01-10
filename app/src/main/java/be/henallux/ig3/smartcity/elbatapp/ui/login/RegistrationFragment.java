@@ -62,6 +62,8 @@ public class RegistrationFragment extends Fragment {
         cancelButton = root.findViewById(R.id.cancel_button);
         confirmButton = root.findViewById(R.id.confirm_button);
         error = root.findViewById(R.id.error);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
 
         gender = root.findViewById(R.id.gender_group);
         genderSelected = gender.findViewById(gender.getCheckedRadioButtonId());
@@ -185,10 +187,16 @@ public class RegistrationFragment extends Fragment {
         });
 
         registrationViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            error.setText(networkError.getErrorMessage());
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
         });
 
         registrationViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            if(integer != 201)
+                error.setVisibility(View.VISIBLE);
+
             if(integer == 400)
                 error.setText(R.string.error_400_add_customer);
             else if(integer == 500)

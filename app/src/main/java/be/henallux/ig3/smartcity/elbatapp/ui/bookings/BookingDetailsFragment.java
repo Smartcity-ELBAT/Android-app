@@ -40,11 +40,11 @@ public class BookingDetailsFragment extends Fragment {
         nbCustomers = root.findViewById(R.id.nb_person_details_value);
         info = root.findViewById(R.id.additional_info_details_value);
         error = root.findViewById(R.id.error_booking_details);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
         cancelBooking = root.findViewById(R.id.cancel_booking);
 
-        cancelBooking.setOnClickListener(v -> {
-            bookingsListViewModel.cancelBooking();
-        });
+        cancelBooking.setOnClickListener(v -> bookingsListViewModel.cancelBooking());
 
         return root;
     }
@@ -82,10 +82,16 @@ public class BookingDetailsFragment extends Fragment {
         });
 
         bookingsListViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            error.setText(networkError.getErrorMessage());
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
         });
 
         bookingsListViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            if(integer != 204)
+                error.setVisibility(View.VISIBLE);
+
             if(integer == 400)
                 error.setText(R.string.error_400_cancel_booking);
             else if(integer == 401)
