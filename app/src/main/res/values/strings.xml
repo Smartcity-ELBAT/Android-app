@@ -105,7 +105,6 @@
     <string name="positif_to_covid_change">We have registered that you are a person at risk. Thank you and have a nice day.</string>
     <string name="go_back_home">Return to home page</string>
     <string name="error_400_check_covid">Bad request for checking risk contact</string>
-    <string name="error_404_check_covid">User not found for checking risk contact</string>
     <string name="places" translatable="false">%dp.</string>
     <string name="no_bookings">You don\'t have any booking for this section</string>
     <string name="no_table_available">There is no table available for this configuration</string>

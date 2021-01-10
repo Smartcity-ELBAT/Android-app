@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,7 +42,6 @@ public class LoginFragment extends Fragment {
     private static final String CHANNEL_ID = "channel_id_notification_covid_19";
     private final Integer notificationId = 1;
     private NotificationManagerCompat notificationManager;
-    private TextView error;
 
     private LoginViewModel loginViewModel;
 
@@ -61,11 +62,8 @@ public class LoginFragment extends Fragment {
         final EditText passwordEditText = view.findViewById(R.id.password);
         final Button loginButton = view.findViewById(R.id.login_button);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.loading);
-//        final LinearLayout errorLayout = view.findViewById(R.id.error_layout);
+        final LinearLayout errorLayout = view.findViewById(R.id.error_layout);
         final Button registerButton = view.findViewById(R.id.register_button);
-        error = view.findViewById(R.id.error_login);
-        error.setVisibility(View.INVISIBLE);
-        error.setText(null);
 
         createNotificationChannel();
 
@@ -85,25 +83,28 @@ public class LoginFragment extends Fragment {
         loginViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             if (error != null) {
                 loadingProgressBar.setVisibility(View.GONE);
-//                errorLayout.setVisibility(View.VISIBLE);
+                errorLayout.setVisibility(View.VISIBLE);
 
-//                final ImageView errorDrawable = view.findViewById(R.id.error_image_view);
-//                final TextView errorTextView = view.findViewById(R.id.error_label);
-//
-//                errorDrawable.setImageResource(error.getErrorDrawable());
-//                errorTextView.setText(error.getErrorMessage());
+                final ImageView errorDrawable = view.findViewById(R.id.error_image_view);
+                final TextView errorTextView = view.findViewById(R.id.error_label);
+
+                errorDrawable.setImageResource(error.getErrorDrawable());
+                errorTextView.setText(error.getErrorMessage());
             }
         });
 
         loginViewModel.getLoginResult().observe(getViewLifecycleOwner(), loginResult -> {
-            loadingProgressBar.setVisibility(View.GONE);
-            requireActivity().setResult(Activity.RESULT_OK);
+            if (loginResult != null) {
+                loadingProgressBar.setVisibility(View.GONE);
+                errorLayout.setVisibility(View.GONE);
+                requireActivity().setResult(Activity.RESULT_OK);
 
-            loginViewModel.checkReservationsContactCovid();
+                loginViewModel.checkReservationsContactCovid();
 
-            //Complete and destroy login activity once successful
-            updateUiWithUser(loginResult);
-            requireActivity().finish();
+                //Complete and destroy login activity once successful
+                updateUiWithUser(loginResult);
+                requireActivity().finish();
+            }
         });
 
         loginViewModel.getContactWithPersonAtRisk().observe(getViewLifecycleOwner(), positiveToCovid -> {
@@ -125,22 +126,31 @@ public class LoginFragment extends Fragment {
 
         loginViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
             if(networkError != null){
-                error.setVisibility(View.VISIBLE);
-                error.setText(networkError.getErrorMessage());
+                final TextView errorTextView = view.findViewById(R.id.error_label);
+                final ImageView errorDrawable = view.findViewById(R.id.error_image_view);
+
+                errorLayout.setVisibility(View.VISIBLE);
+                errorDrawable.setImageResource(networkError.getErrorDrawable());
+                errorTextView.setText(networkError.getErrorMessage());
             }
         });
 
         loginViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
-            error.setVisibility(View.VISIBLE);
+            if (integer != 200) {
+                final TextView errorTextView = view.findViewById(R.id.error_label);
+                final ImageView errorDrawable = view.findViewById(R.id.error_image_view);
 
-            if(integer == 400)
-                error.setText(R.string.error_400_check_covid);
-            else if(integer == 401)
-                error.setText(R.string.error_401_unauthorized);
-            else if(integer == 404)
-                error.setText(R.string.error_404_check_covid);
-            else if(integer == 500)
-                error.setText(R.string.error_500);
+                errorLayout.setVisibility(View.VISIBLE);
+
+                errorDrawable.setImageResource(R.drawable.ic_error);
+
+                if (integer == 400)
+                    errorTextView.setText(R.string.error_400_check_covid);
+                else if (integer == 401)
+                    errorTextView.setText(R.string.error_401_unauthorized);
+                else if (integer == 500)
+                    errorTextView.setText(R.string.error_500);
+            }
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
@@ -170,7 +180,7 @@ public class LoginFragment extends Fragment {
 
         loginButton.setOnClickListener(v -> {
             loadingProgressBar.setVisibility(View.VISIBLE);
-//            errorLayout.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.GONE);
             loginViewModel.login(usernameEditText.getText().toString(),
                     passwordEditText.getText().toString());
         });

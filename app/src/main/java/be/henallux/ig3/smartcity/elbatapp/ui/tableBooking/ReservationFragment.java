@@ -245,7 +245,7 @@ public class ReservationFragment extends Fragment {
                         .getAvailableTables()
                         .getValue()
                         .stream()
-                        .anyMatch(table -> table.getNbSeats() >= reservation.getNbCustomers() && table.getOutside() == reservation.getOutside())
+                        .anyMatch(table -> table.getNbSeats() >= reservation.getNbCustomers() && (reservation.getOutside() != null || !table.getOutside()))
                 ) {
                     User user = new JWT(
                             requireActivity()
@@ -260,7 +260,7 @@ public class ReservationFragment extends Fragment {
                                     .getAvailableTables()
                                     .getValue()
                                     .stream()
-                                    .filter(table -> table.getNbSeats() >= reservation.getNbCustomers() && table.getOutside() == reservation.getOutside())
+                                    .filter(table -> table.getNbSeats() >= reservation.getNbCustomers()  && (reservation.getOutside() != null || !table.getOutside()))
                                     .findFirst()
                                     .get().getId()
                     );
