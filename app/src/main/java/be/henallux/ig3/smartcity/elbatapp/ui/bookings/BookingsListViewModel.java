@@ -44,8 +44,8 @@ public class BookingsListViewModel extends AndroidViewModel {
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
 
-    private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
-    private LiveData<Integer> statusCode = _statusCode;
+    private MutableLiveData<Integer> _statutCode = new MutableLiveData<>();
+    private LiveData<Integer> statutCode = _statutCode;
 
     private ELBATWebService webService;
     private ReservationMapper reservationMapper;
@@ -66,6 +66,8 @@ public class BookingsListViewModel extends AndroidViewModel {
         JWT jwt = new JWT(token);
         Claim userData = jwt.getClaim("userData");
         userId = Objects.requireNonNull(userData.asObject(User.class)).getId();
+
+        _error.setValue(null);
     }
 
     public LiveData<List<Reservation>> getBookings() {
@@ -88,8 +90,8 @@ public class BookingsListViewModel extends AndroidViewModel {
         return error;
     }
 
-    public LiveData<Integer> getStatusCode() {
-        return statusCode;
+    public LiveData<Integer> getStatutCode() {
+        return statutCode;
     }
 
     public void loadBookings(){
@@ -101,7 +103,7 @@ public class BookingsListViewModel extends AndroidViewModel {
                     List<Reservation> canceledBookings = new ArrayList<>();
                     GregorianCalendar now = new GregorianCalendar();
 
-                    for (Reservation booking : reservationMapper.mapToReservations(response.body())) {
+                    for (Reservation booking : reservationMapper.mapToReservation(response.body())) {
                         if(now.compareTo(booking.getDateTimeReserved()) > 0 || booking.getCancelled())
                             canceledBookings.add(booking);
                         else
@@ -110,7 +112,8 @@ public class BookingsListViewModel extends AndroidViewModel {
                     _bookings.setValue(bookingsToCome);
                     _canceledBookings.setValue(canceledBookings);
                 }
-                _statusCode.setValue(response.code());
+                _statutCode.setValue(response.code());
+                _error.setValue(null);
             }
 
             @Override
@@ -124,7 +127,8 @@ public class BookingsListViewModel extends AndroidViewModel {
         webService.cancelReservations("Bearer " + token, cancelMapper.mapToCancelDto(userId, bookingChosen.getValue().getDateTimeReserved())).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
-                _statusCode.setValue(response.code());
+                _statutCode.setValue(response.code());
+                _error.setValue(null);
             }
 
             @Override
@@ -134,8 +138,4 @@ public class BookingsListViewModel extends AndroidViewModel {
         });
 
     }
-
-
-
-
 }

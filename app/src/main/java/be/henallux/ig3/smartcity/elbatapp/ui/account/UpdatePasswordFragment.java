@@ -43,6 +43,8 @@ public class UpdatePasswordFragment extends Fragment {
         cancel = root.findViewById(R.id.cancel_update_password_button);
         confirm = root.findViewById(R.id.confirm_update_password_button);
         error = root.findViewById(R.id.error_update_password);
+        error.setVisibility(View.INVISIBLE);
+        error.setText(null);
 
         if(savedInstanceState != null){
             currentPassword.setText(savedInstanceState.getString("currentPassword"));
@@ -103,9 +105,17 @@ public class UpdatePasswordFragment extends Fragment {
             confirm.setEnabled(inputErrors.isEmpty());
         });
 
-        accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> error.setText(networkError.getErrorMessage()));
+        accountViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
+            if(networkError != null){
+                error.setVisibility(View.VISIBLE);
+                error.setText(networkError.getErrorMessage());
+            }
+        });
 
         accountViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
+            if(integer != 204)
+                error.setVisibility(View.VISIBLE);
+
             if(integer == 400)
                 error.setText(R.string.error_400_update_password);
             else if(integer == 401)
@@ -124,6 +134,7 @@ public class UpdatePasswordFragment extends Fragment {
 
                 Toast.makeText(getActivity(), getResources().getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(requireActivity(), LoginActivity.class));
+                requireActivity().finish();
             }
         });
     }

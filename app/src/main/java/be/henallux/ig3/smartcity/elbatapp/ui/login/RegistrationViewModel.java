@@ -42,6 +42,7 @@ public class RegistrationViewModel extends AndroidViewModel {
         super(application);
         this.webService = RetrofitConfigurationService.getInstance(getApplication()).getELBATWebService();
         this.userMapper = UserMapper.getInstance();
+        _error.setValue(null);
     }
 
     public LiveData<HashMap<String, String>> getInputErrors() {
@@ -119,6 +120,7 @@ public class RegistrationViewModel extends AndroidViewModel {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
                 _statutCode.setValue(response.code());
+                _error.setValue(null);
             }
 
             @Override

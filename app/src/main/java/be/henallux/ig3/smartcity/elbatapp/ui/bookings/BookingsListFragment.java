@@ -106,7 +106,7 @@ public class BookingsListFragment extends Fragment {
             }
         });
 
-        bookingsListViewModel.getStatusCode().observe(getViewLifecycleOwner(), statusCode -> {
+        bookingsListViewModel.getStatutCode().observe(getViewLifecycleOwner(), statusCode -> {
             final TextView errorTextView = root.findViewById(R.id.loading_error_text);
             final ImageView errorDrawable = root.findViewById(R.id.loading_error_image);
 
@@ -153,10 +153,12 @@ public class BookingsListFragment extends Fragment {
             LinearLayout linearLayout = (LinearLayout)LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_booking_item, parent, false);
 
-            return new BookingViewHolder(linearLayout, position -> {
+            BookingViewHolder viewHolder = new BookingViewHolder(linearLayout, position -> {
                 bookingsListViewModel.setBookingChosen(reservations.get(position));
                 Navigation.findNavController(requireView()).navigate(R.id.action_nav_bookings_to_bookingDetailsFragment3);
             });
+
+            return viewHolder;
         }
 
         @Override

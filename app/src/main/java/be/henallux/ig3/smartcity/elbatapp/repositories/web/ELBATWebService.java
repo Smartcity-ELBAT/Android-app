@@ -6,6 +6,7 @@ import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.CancelDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.EstablishmentDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.LoginCredentialsDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.PasswordDto;
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.PositiveToCovidDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.ReservationDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.TableDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.UserDto;
@@ -47,4 +48,10 @@ public interface ELBATWebService {
 
     @PATCH("reservation/cancel/")
     Call<Void> cancelReservations(@Header(value = "Authorization") String token, @Body CancelDto cancelDto);
+
+    @PATCH("person/updateCovid/{id}")
+    Call<Void> updateCovid(@Header(value = "Authorization") String token, @Path("id") Integer id);
+
+    @GET("reservation/covid/{id}")
+    Call<PositiveToCovidDto> checkReservationContactCovid(@Header(value = "Authorization") String token, @Path("id") Integer id);
 }
