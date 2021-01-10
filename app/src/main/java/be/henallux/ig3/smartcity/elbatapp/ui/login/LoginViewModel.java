@@ -90,6 +90,8 @@ public class LoginViewModel extends AndroidViewModel {
                     token = response.body();
                     _user.setValue(userData.asObject(User.class));
                     _error.setValue(null);
+                } else {
+                    _error.setValue(NetworkError.BAD_CREDENTIALS);
                 }
                 _statutCode.setValue(response.code());
             }

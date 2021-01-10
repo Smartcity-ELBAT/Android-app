@@ -1,11 +1,14 @@
 package be.henallux.ig3.smartcity.elbatapp.ui;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,6 +26,7 @@ import java.util.Objects;
 
 import be.henallux.ig3.smartcity.elbatapp.R;
 import be.henallux.ig3.smartcity.elbatapp.data.model.User;
+import be.henallux.ig3.smartcity.elbatapp.ui.login.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +56,24 @@ public class MainActivity extends AppCompatActivity {
 
         greetingsView.setText(getString(R.string.nav_greeting, Objects.requireNonNull(token.getClaim("userData").asObject(User.class)).getFirstName()));
 
+        navigationView.setNavigationItemSelectedListener(item -> {
+            if (String.valueOf(item.getTitle()).equals(getString(R.string.menu_map))
+                    || String.valueOf(item.getTitle()).equals(getString(R.string.menu_my_account))
+                    || String.valueOf(item.getTitle()).equals(getString(R.string.menu_my_bookings))
+                    || String.valueOf(item.getTitle()).equals(getString(R.string.menu_covid_positive))) {
+                NavigationUI.onNavDestinationSelected(item, navController);
+                drawer.close();
+            } else if (String.valueOf(item.getTitle()).equals(getString(R.string.menu_exit))) {
+                SharedPreferences.Editor sharedPref = getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE).edit();
 
+                sharedPref.remove("JSONWEBTOKEN");
+                sharedPref.apply();
+
+                startActivity(new Intent(this, LoginActivity.class));
+            }
+
+            return true;
+        });
     }
 
     @Override
