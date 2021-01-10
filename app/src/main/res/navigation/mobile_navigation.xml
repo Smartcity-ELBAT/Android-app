@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_bookings">
+    app:startDestination="@id/nav_booking">
 
     <fragment
             android:id="@+id/nav_booking"
@@ -40,9 +40,9 @@
 
     <fragment
         android:id="@+id/nav_corona"
-        android:name="be.henallux.ig3.smartcity.elbatapp.ui.positifToCovid19.PositiveToCovidFragment"
+        android:name="be.henallux.ig3.smartcity.elbatapp.ui.positiveToCovid19.PositiveToCovidFragment"
         android:label="@string/menu_covid_positive"
-        tools:layout="@layout/positif_to_covid_fragment">
+        tools:layout="@layout/positive_to_covid_fragment">
         <action
             android:id="@+id/action_nav_corona_to_nav_booking"
             app:destination="@id/nav_booking" />

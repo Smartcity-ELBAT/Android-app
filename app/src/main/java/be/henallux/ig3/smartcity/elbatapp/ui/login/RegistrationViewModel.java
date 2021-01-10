@@ -118,7 +118,7 @@ public class RegistrationViewModel extends AndroidViewModel {
         webService.addUser(userMapper.mapToUserDto(user)).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
-                    _statutCode.setValue(response.code());
+                _statutCode.setValue(response.code());
             }
 
             @Override

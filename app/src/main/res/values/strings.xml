@@ -95,10 +95,15 @@
     <string name="booking_cancelled">Booking is cancel</string>
     <string name="error_404_load_bookings">No booking</string>
     <string name="channel_name">Notification ELBAT Covid 19</string>
-    <string name="channel_description">" Notification informing that the client has been in contact with a positive person for covid 19"</string>
+    <string name="channel_description">Notification informing that the client has been in contact with a positive person for covid 19</string>
     <string name="notification_title">ELBAT alert</string>
     <string name="notification_text">" You have been in contact with someone positive for covid 19"</string>
     <string name="positif_to_covid">" If you have been in contact with someone positive for covid 19 or if you are positive yourself, please click this button. This will allow us to inform customers who visited our establishment at the same time as you."</string>
     <string name="risk_contact">Alert Covid 19</string>
+    <string name="places" translatable="false">%dp.</string>
+    <string name="no_bookings">You don\'t have any booking for this section</string>
+    <string name="no_table_available">There is no table available for this configuration</string>
+    <string name="must_fill_all">You must fill all required values before booking</string>
+    <string name="booking_created">Booking created</string>
     <!-- Strings related to login -->
 </resources>

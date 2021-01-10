@@ -1,73 +1,48 @@
-package be.henallux.ig3.smartcity.elbatapp.ui.tableBooking;
+package be.henallux.ig3.smartcity.elbatapp.ui.tableBooking
 
-import android.app.Application;
-import android.content.Context;
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment
+import androidx.lifecycle.LiveData
+import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.ELBATWebService
+import be.henallux.ig3.smartcity.elbatapp.service.mappers.EstablishmentMapper
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.EstablishmentDto
+import be.henallux.ig3.smartcity.elbatapp.utils.errors.NoConnectivityException
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.RetrofitConfigurationService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+class EstablishmentsMapViewModel(application: Application) : AndroidViewModel(application) {
+    private val _establishments = MutableLiveData<List<Establishment>>()
+    val establishments: LiveData<List<Establishment>> = _establishments
+    private val _error = MutableLiveData<NetworkError?>()
+    val error: LiveData<NetworkError?>
+        get() = _error
+    private val webService: ELBATWebService = RetrofitConfigurationService
+            .getInstance(getApplication())
+            .elbatWebService
+    private val establishmentMapper: EstablishmentMapper = EstablishmentMapper.getInstance()
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
-
-import be.henallux.ig3.smartcity.elbatapp.data.model.Establishment;
-import be.henallux.ig3.smartcity.elbatapp.data.model.NetworkError;
-import be.henallux.ig3.smartcity.elbatapp.repositories.web.ELBATWebService;
-import be.henallux.ig3.smartcity.elbatapp.repositories.web.RetrofitConfigurationService;
-import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.EstablishmentDto;
-import be.henallux.ig3.smartcity.elbatapp.service.mappers.EstablishmentMapper;
-import be.henallux.ig3.smartcity.elbatapp.utils.errors.NoConnectivityException;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class EstablishmentsMapViewModel extends AndroidViewModel {
-    private MutableLiveData<List<Establishment>> _establishments = new MutableLiveData<>();
-    private LiveData<List<Establishment>> establishments = _establishments;
-
-    private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
-    private LiveData<NetworkError> error = _error;
-
-    private ELBATWebService webService;
-    private EstablishmentMapper establishmentMapper;
-
-    public EstablishmentsMapViewModel(@NotNull Application application) {
-        super(application);
-
-        this.webService = RetrofitConfigurationService
-                .getInstance(getApplication())
-                .getELBATWebService();
-
-        this.establishmentMapper = EstablishmentMapper.getInstance();
-    }
-
-    public void requestEstablishments() {
-        String token = "Bearer " + getApplication()
+    fun requestEstablishments() {
+        val token = "Bearer " + getApplication<Application>()
                 .getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE)
-                .getString("JSONWEBTOKEN", "");
-
-        webService.getAllEstablishments(token).enqueue(new Callback<List<EstablishmentDto>>() {
-            @Override
-            public void onResponse(@NotNull Call<List<EstablishmentDto>> call, @NotNull Response<List<EstablishmentDto>> response) {
-                if (response.isSuccessful()) {
-                    _establishments.setValue(establishmentMapper.mapToEstablishments(response.body()));
-                    _error.setValue(null);
+                .getString("JSONWEBTOKEN", "")
+        webService.getAllEstablishments(token).enqueue(object : Callback<List<EstablishmentDto?>?> {
+            override fun onResponse(call: Call<List<EstablishmentDto?>?>, response: Response<List<EstablishmentDto?>?>) {
+                if (response.isSuccessful) {
+                    _establishments.value = establishmentMapper.mapToEstablishments(response.body())
+                    _error.value = null
                 }
             }
 
-            @Override
-            public void onFailure(@NotNull Call<List<EstablishmentDto>> call, @NotNull Throwable t) {
-                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            override fun onFailure(call: Call<List<EstablishmentDto?>?>, t: Throwable) {
+                _error.value = if (t is NoConnectivityException) NetworkError.NO_CONNECTION else NetworkError.TECHNICAL_ERROR
             }
-        });
+        })
     }
 
-    public LiveData<NetworkError> getError() {
-        return _error;
-    }
-
-    public LiveData<List<Establishment>> getEstablishments() {
-        return establishments;
-    }
 }

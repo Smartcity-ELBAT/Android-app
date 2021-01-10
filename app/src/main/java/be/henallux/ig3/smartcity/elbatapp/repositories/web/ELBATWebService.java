@@ -7,6 +7,7 @@ import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.EstablishmentDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.LoginCredentialsDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.PasswordDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.ReservationDto;
+import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.TableDto;
 import be.henallux.ig3.smartcity.elbatapp.repositories.web.dto.UserDto;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,7 +28,10 @@ public interface ELBATWebService {
     Call<Void> addUser(@Body UserDto user);
 
     @POST("/reservation/")
-    Call<Void> makeReservation(@Body ReservationDto reservationDto);
+    Call<Void> makeReservation(@Header(value = "Authorization") String token, @Body ReservationDto reservation);
+
+    @GET("/table/{establishmentId}/{chosenDate}")
+    Call<List<TableDto>> getAvailableTablesForDate(@Header(value = "Authorization") String token, @Path("establishmentId") Integer establishmentId, @Path("chosenDate") String wantedDate);
   
     @GET("/person/customer/{id}")
     Call<UserDto> getUserById(@Header(value = "Authorization") String token, @Path("id") Integer id);

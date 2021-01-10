@@ -1,4 +1,4 @@
-package be.henallux.ig3.smartcity.elbatapp.ui.positifToCovid19
+package be.henallux.ig3.smartcity.elbatapp.ui.positiveToCovid19
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -20,7 +20,7 @@ class PositiveToCovidFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.positif_to_covid_fragment, container, false)
+        val root = inflater.inflate(R.layout.positive_to_covid_fragment, container, false)
 
         val text = root.findViewById<TextView>(R.id.text_positif_covid)
         val button = root.findViewById<Button>(R.id.button_positif_covid)

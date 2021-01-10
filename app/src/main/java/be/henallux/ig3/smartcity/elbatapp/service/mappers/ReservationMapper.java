@@ -1,6 +1,10 @@
 package be.henallux.ig3.smartcity.elbatapp.service.mappers;
 
+import android.text.format.DateFormat;
+import android.util.Log;
+
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,10 +22,10 @@ public class ReservationMapper {
         return instance;
     }
 
-    public List<Reservation> mapToReservation(List<ReservationDto> reservationDto){
+    public List<Reservation> mapToReservations(List<ReservationDto> reservationsDto){
 
-        return reservationDto == null ? null :
-                reservationDto
+        return reservationsDto == null ? null :
+                reservationsDto
                 .stream()
                 .map(reservation ->
                         {
@@ -35,10 +39,25 @@ public class ReservationMapper {
                                         reservation.getEstablishmentName()
                                 );
                             } catch (ParseException e) {
-                                e.printStackTrace();
+                                Log.e("MapToReservations - Parsing error", e.getLocalizedMessage());
                             }
                             return null;
                         }
                 ).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ReservationDto mapToReservationDto(Reservation reservation) {
+        return reservation == null ? null :
+                new ReservationDto(
+                        reservation.getPersonId(),
+                        (String) DateFormat.format("yyyy-MM-dd HH:mm:ss", reservation.getDateTimeReserved()),
+                        reservation.getNbCustomers(),
+                        reservation.getAdditionalInfo(),
+                        reservation.getCancelled(),
+                        reservation.getOutside(),
+                        reservation.getEstablishmentId(),
+                        reservation.getEstablishmentName(),
+                        reservation.getTableId()
+                );
     }
 }

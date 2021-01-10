@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,12 +44,13 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
 
     private ConstraintLayout mapLayout;
     private TextView errorView;
+    private ProgressBar loadingBar;
 
     private OnMapReadyCallback callback = googleMap -> {
         EstablishmentsMapFragment.this.googleMap = googleMap;
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(50.4669, 4.86746), 14));
-        googleMap.setMinZoomPreference(14);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(50.4669, 4.86746), 12));
+        googleMap.setMinZoomPreference(12);
         googleMap.setOnInfoWindowClickListener(EstablishmentsMapFragment.this);
     };
 
@@ -60,11 +62,9 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
         View root = inflater.inflate(R.layout.fragment_establishments_map, container, false);
 
         reservationViewModel = new ViewModelProvider(requireActivity()).get(ReservationViewModel.class);
-
         establishmentsMapViewModel = new ViewModelProvider(this).get(EstablishmentsMapViewModel.class);
-        establishmentsMapViewModel.requestEstablishments();
 
-        establishmentsMapViewModel.getError().observe(getViewLifecycleOwner(), this::displayErrorScreen);
+        loadingBar = root.findViewById(R.id.establishments_loading_bar);
 
         mapLayout = root.findViewById(R.id.map_layout);
         errorView = root.findViewById(R.id.loading_error_view);
@@ -87,21 +87,25 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        establishmentsMapViewModel.requestEstablishments();
+
         establishmentsMapViewModel.getEstablishments().observe(requireActivity(), establishments -> {
             // besoin d'une AsyncTask parce que le geocoding ne se fait pas dans un processus séparé
             new AsyncEstablishmentsLocationGetter(requireActivity()).execute(establishments.toArray(new Establishment[]{}));
 
             this.establishments = (ArrayList<Establishment>) establishments;
         });
+
+        establishmentsMapViewModel.getError().observe(getViewLifecycleOwner(), this::displayErrorScreen);
     }
 
     private void displayErrorScreen(NetworkError error) {
         if (error == null) {
-            mapLayout.setVisibility(View.VISIBLE);
             errorView.setVisibility(View.GONE);
         } else {
             mapLayout.setVisibility(View.GONE);
             errorView.setVisibility(View.VISIBLE);
+            loadingBar.setVisibility(View.GONE);
         }
     }
 
@@ -153,6 +157,9 @@ public class EstablishmentsMapFragment extends Fragment implements GoogleMap.OnI
                         .title(establishment.getName() + " - " + establishment.getCategory())
                         .snippet(establishment.getAddress().fullAddress()));
             }
+
+            loadingBar.setVisibility(View.GONE);
+            mapLayout.setVisibility(View.VISIBLE);
         }
     }
 }

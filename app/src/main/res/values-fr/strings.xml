@@ -99,4 +99,8 @@
     <string name="notification_title">ELBAT alerte</string>
     <string name="notification_text">Vous avez été en contact avec une personne positive au covid 19</string>
     <string name="risk_contact">Alerte Covid 19</string>
+    <string name="no_bookings">Vous n\'avez pas de réservation pour cette section</string>
+    <string name="no_table_available">Il n\'y a pas de table de libre pour cette configuration.</string>
+    <string name="must_fill_all">Vous devez remplir tous les champs requis pour continuer</string>
+    <string name="booking_created">Réservation ajoutée</string>
 </resources>

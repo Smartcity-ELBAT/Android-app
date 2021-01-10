@@ -42,9 +42,7 @@ public class BookingDetailsFragment extends Fragment {
         error = root.findViewById(R.id.error_booking_details);
         cancelBooking = root.findViewById(R.id.cancel_booking);
 
-        cancelBooking.setOnClickListener(v -> {
-            bookingsListViewModel.cancelBooking();
-        });
+        cancelBooking.setOnClickListener(v -> bookingsListViewModel.cancelBooking());
 
         return root;
     }
@@ -81,20 +79,18 @@ public class BookingDetailsFragment extends Fragment {
             cancelBooking.setEnabled(!reservation.getCancelled() && now.compareTo(reservation.getDateTimeReserved()) < 0);
         });
 
-        bookingsListViewModel.getError().observe(getViewLifecycleOwner(), networkError -> {
-            error.setText(networkError.getErrorMessage());
-        });
+        bookingsListViewModel.getError().observe(getViewLifecycleOwner(), networkError -> error.setText(networkError.getErrorMessage()));
 
-        bookingsListViewModel.getStatutCode().observe(getViewLifecycleOwner(), integer -> {
-            if(integer == 400)
+        bookingsListViewModel.getStatusCode().observe(getViewLifecycleOwner(), statusCode -> {
+            if(statusCode == 400)
                 error.setText(R.string.error_400_cancel_booking);
-            else if(integer == 401)
+            else if(statusCode == 401)
                 error.setText(R.string.error_401_unauthorized);
-            else if(integer == 404)
+            else if(statusCode == 404)
                 error.setText(R.string.error_404_cancel_booking);
-            else if(integer == 500)
+            else if(statusCode == 500)
                 error.setText(R.string.error_500);
-            else if(integer == 204){
+            else if(statusCode == 204){
                 Toast.makeText(getActivity(), getResources().getString(R.string.booking_cancelled), Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(requireView()).navigate(R.id.action_bookingDetailsFragment3_to_nav_bookings);
             }

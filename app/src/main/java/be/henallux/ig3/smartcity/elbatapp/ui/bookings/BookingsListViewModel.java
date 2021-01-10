@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.auth0.android.jwt.Claim;
 import com.auth0.android.jwt.JWT;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -42,8 +44,8 @@ public class BookingsListViewModel extends AndroidViewModel {
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
 
-    private MutableLiveData<Integer> _statutCode = new MutableLiveData<>();
-    private LiveData<Integer> statutCode = _statutCode;
+    private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
+    private LiveData<Integer> statusCode = _statusCode;
 
     private ELBATWebService webService;
     private ReservationMapper reservationMapper;
@@ -86,20 +88,20 @@ public class BookingsListViewModel extends AndroidViewModel {
         return error;
     }
 
-    public LiveData<Integer> getStatutCode() {
-        return statutCode;
+    public LiveData<Integer> getStatusCode() {
+        return statusCode;
     }
 
     public void loadBookings(){
         webService.getReservations("Bearer " + token, userId).enqueue(new Callback<List<ReservationDto>>() {
             @Override
-            public void onResponse(Call<List<ReservationDto>> call, Response<List<ReservationDto>> response) {
+            public void onResponse(@NotNull Call<List<ReservationDto>> call, @NotNull Response<List<ReservationDto>> response) {
                 if(response.isSuccessful()){
                     List<Reservation> bookingsToCome = new ArrayList<>();
                     List<Reservation> canceledBookings = new ArrayList<>();
                     GregorianCalendar now = new GregorianCalendar();
 
-                    for (Reservation booking : reservationMapper.mapToReservation(response.body())) {
+                    for (Reservation booking : reservationMapper.mapToReservations(response.body())) {
                         if(now.compareTo(booking.getDateTimeReserved()) > 0 || booking.getCancelled())
                             canceledBookings.add(booking);
                         else
@@ -108,11 +110,11 @@ public class BookingsListViewModel extends AndroidViewModel {
                     _bookings.setValue(bookingsToCome);
                     _canceledBookings.setValue(canceledBookings);
                 }
-                _statutCode.setValue(response.code());
+                _statusCode.setValue(response.code());
             }
 
             @Override
-            public void onFailure(Call<List<ReservationDto>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<ReservationDto>> call, @NotNull Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
@@ -121,12 +123,12 @@ public class BookingsListViewModel extends AndroidViewModel {
     public void cancelBooking(){
         webService.cancelReservations("Bearer " + token, cancelMapper.mapToCancelDto(userId, bookingChosen.getValue().getDateTimeReserved())).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                _statutCode.setValue(response.code());
+            public void onResponse(@NotNull Call<Void> call, @NotNull Response<Void> response) {
+                _statusCode.setValue(response.code());
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NotNull Call<Void> call, @NotNull Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });

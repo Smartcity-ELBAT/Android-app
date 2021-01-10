@@ -1,6 +1,8 @@
 package be.henallux.ig3.smartcity.elbatapp.ui.account;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -115,6 +117,11 @@ public class UpdatePasswordFragment extends Fragment {
             else if(integer == 500)
                 error.setText(R.string.error_500);
             else if (integer == 204){
+                SharedPreferences.Editor sharedPref = requireActivity().getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE).edit();
+
+                sharedPref.putString("JSONWEBTOKEN", "");
+                sharedPref.apply();
+
                 Toast.makeText(getActivity(), getResources().getString(R.string.password_updated), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(requireActivity(), LoginActivity.class));
             }
