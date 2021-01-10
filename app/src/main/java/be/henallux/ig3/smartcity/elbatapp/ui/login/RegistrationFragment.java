@@ -165,8 +165,6 @@ public class RegistrationFragment extends Fragment {
         registrationViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
 
         registrationViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
-            // TODO erreur pour la date ne s'affiche pas
-
             if(!inputErrors.isEmpty()) {
                 username.setError(inputErrors.containsKey("username") ? inputErrors.get("username") : null);
                 password.setError(inputErrors.containsKey("password") ? inputErrors.get("password") : null);
