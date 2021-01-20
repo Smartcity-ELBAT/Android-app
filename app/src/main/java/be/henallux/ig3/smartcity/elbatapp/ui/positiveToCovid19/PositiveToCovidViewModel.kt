@@ -24,13 +24,13 @@ class PositiveToCovidViewModel(application: Application) : AndroidViewModel(appl
     private val statutCode: LiveData<Int> = _statutCode
 
     private val webService = RetrofitConfigurationService.getInstance(application).elbatWebService
-    val token = application
+    private val token = application
             .getSharedPreferences("JSONWEBTOKEN", Context.MODE_PRIVATE)
             .getString("JSONWEBTOKEN", "")
 
-    val jwt = token?.let { JWT(it) }
-    val userData = jwt?.getClaim("userData")
-    val userId = userData?.asObject(User::class.java)!!.id
+    private val jwt = token?.let { JWT(it) }
+    private val userData = jwt?.getClaim("userData")
+    private val userId: Int = userData?.asObject(User::class.java)!!.id
 
     fun getError(): LiveData<NetworkError> {
         return error

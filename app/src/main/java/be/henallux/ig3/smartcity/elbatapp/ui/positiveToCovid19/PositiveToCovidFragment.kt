@@ -43,7 +43,7 @@ class PositiveToCovidFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(PositiveToCovidViewModel::class.java)
 
-        viewModel.getError().observe(viewLifecycleOwner, { networkError: NetworkError ->
+        viewModel.getError().observe(viewLifecycleOwner, { networkError: NetworkError? ->
             if (networkError != null) {
                 error.visibility = View.VISIBLE
                 error.setText(networkError.errorMessage)

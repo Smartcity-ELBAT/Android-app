@@ -152,12 +152,10 @@ public class BookingsListFragment extends Fragment {
             LinearLayout linearLayout = (LinearLayout)LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_booking_item, parent, false);
 
-            BookingViewHolder viewHolder = new BookingViewHolder(linearLayout, position -> {
+            return new BookingViewHolder(linearLayout, position -> {
                 bookingsListViewModel.setBookingChosen(reservations.get(position));
                 Navigation.findNavController(requireView()).navigate(R.id.action_nav_bookings_to_bookingDetailsFragment3);
             });
-
-            return viewHolder;
         }
 
         @Override
